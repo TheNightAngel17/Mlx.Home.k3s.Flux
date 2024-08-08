@@ -20,5 +20,6 @@ spec:
   releaseName: traefik
   targetNamespace: traefik
   values:
-    crds:
-      enabled: true
+    ingressRoute:
+      dashboard:
+        enabled: true
