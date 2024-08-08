@@ -7,7 +7,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: cloudflared
-  namespace: cloudflared
+  namespace: cloudflared-tunnel
 data:
   config.yaml: |
     # Name of the tunnel you want to run
