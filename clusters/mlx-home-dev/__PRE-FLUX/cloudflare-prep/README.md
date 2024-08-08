@@ -55,17 +55,9 @@ Deploy config map and deployment.
 ```
 kubectl apply -n cloudflared-tunnel -f mlx-home-k3s-dev.yml
 ```
+# Helpful Commands
 
-# Updates
-
-As this is a locally-managed tunnel, if you need to add a hostname/service, you will want to follow these steps.
-
-1. Update the .yml file to include the hostname information in the ConfigMap
-
-1. Apply the changes
-    ```
-    kubectl apply -n cloudflared-tunnel -f mlx-home-k3s-dev.yml
-    ```
+after any updates to the config, the service needs to be restarted to pick up the config.
 
 1. Restart the deplyment
     ```
