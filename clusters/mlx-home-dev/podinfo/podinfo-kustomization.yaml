@@ -12,6 +12,8 @@ spec:
   sourceRef:
     kind: GitRepository
     name: podinfo
-  targetNamespace: default
+  install:
+    createNamespace: true
+  targetNamespace: podinfo
   timeout: 3m0s
   wait: true
