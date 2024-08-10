@@ -17,6 +17,7 @@ spec:
   install:
     createNamespace: true
   interval: 1m0s
+  timeout: 10m
   releaseName: bitwarden
   targetNamespace: bitwarden
   values:
