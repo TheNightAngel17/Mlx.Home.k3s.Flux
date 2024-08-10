@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: "nginx-ingress"
+  namespace: "bitnami-nginx"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`nginx.thelemonsclan.com`)
+      services:
+        - kind: Service
+          name: bitnami-nginx
+          passHostHeader: true
+          port: 443
