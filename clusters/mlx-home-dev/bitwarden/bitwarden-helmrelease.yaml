@@ -83,7 +83,7 @@ spec:
       coreVersionOverride: ""
       webVersionOverride: ""
       # Disable account registration on web vault
-      disableUserRegistration: "true"
+      disableUserRegistration: "false"
       # Comma-separated list of email addresses for Admin users
       admins: "lemonsml@outlook.com,goalkeeper171717@gmail.com"
       email:
