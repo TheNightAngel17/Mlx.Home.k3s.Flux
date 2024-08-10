@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: bitnami-nginx
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: nginx
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+      version: 18.1.x
+  install:
+    createNamespace: true
+  interval: 1m0s
+  releaseName: bitnami-nginx
+  targetNamespace: bitnami-nginx
