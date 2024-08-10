@@ -9,7 +9,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`nginx.thelemonsclan.com`)
+      match: Host(`dev-nginx1.mlxsolutions.com`)
       services:
         - kind: Service
           name: bitnami-nginx
