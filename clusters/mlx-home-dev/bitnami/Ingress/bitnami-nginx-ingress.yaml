@@ -3,7 +3,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: "nginx-ingress"
-  namespace: "bitnami-nginx"
+  namespace: "traefik"
 spec:
   entryPoints:
     - websecure
