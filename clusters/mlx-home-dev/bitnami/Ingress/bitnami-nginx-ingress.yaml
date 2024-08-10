@@ -13,5 +13,6 @@ spec:
       services:
         - kind: Service
           name: bitnami-nginx
+          namespace: bitnami-nginx
           passHostHeader: true
           port: 443
