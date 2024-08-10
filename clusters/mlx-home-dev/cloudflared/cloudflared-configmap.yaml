@@ -27,6 +27,10 @@ data:
     # from the internet to cloudflared, run `cloudflared tunnel route dns <tunnel> <hostname>`.
     # E.g. `cloudflared tunnel route dns example-tunnel tunnel.example.com`.
     ingress:
+    - hostname: testme.thelemonsclan.com
+      service: https://bitnami-nginx.bitnami-nginx
+      originRequest:
+        noTLSVerify: true
     - hostname: nginx.thelemonsclan.com
       service: https://traefik.traefik
       originRequest:

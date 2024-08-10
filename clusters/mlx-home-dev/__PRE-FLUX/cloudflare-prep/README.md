@@ -59,12 +59,13 @@ kubectl apply -n cloudflared-tunnel -f mlx-home-k3s-dev.yml
 
 after any updates to the config, the service needs to be restarted to pick up the config.
 
+1. Add new service hostname to DNS
+    ```
+    cloudflared tunnel route dns {{ tunnel-name }} {{ hostname }}
+    ```
+
 1. Restart the deplyment
     ```
     kubectl rollout restart deployments/cloudflared -n cloudflared-tunnel
     ```
 
-1. Add new service hostname to DNS
-    ```
-    cloudflared tunnel route dns {{ tunnel-name }} {{ hostname }}
-    ```
