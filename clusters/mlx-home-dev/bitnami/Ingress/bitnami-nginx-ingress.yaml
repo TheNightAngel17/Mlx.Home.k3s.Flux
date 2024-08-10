@@ -15,4 +15,4 @@ spec:
           name: bitnami-nginx
           namespace: bitnami-nginx
           passHostHeader: true
-          port: 443
+          port: 80
