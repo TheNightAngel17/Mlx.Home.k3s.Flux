@@ -1,9 +1,0 @@
----
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: foundry-vtt
-  namespace: flux-system
-spec:
-  interval: 1m0s
-  url: https://hugoprudente.github.io/helm-charts/incubator/
