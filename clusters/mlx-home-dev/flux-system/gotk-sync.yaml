@@ -11,7 +11,7 @@ spec:
     branch: main
   secretRef:
     name: flux-system
-  url: ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux.git
+  url: ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
