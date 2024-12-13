@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: bitwarden
         namespace: flux-system
-      version: 2024.7.x
+      version: 2024.12.x
   install:
     createNamespace: true
   interval: 1m0s
