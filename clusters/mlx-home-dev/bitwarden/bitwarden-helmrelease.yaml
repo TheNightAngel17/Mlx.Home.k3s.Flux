@@ -14,8 +14,6 @@ spec:
         name: bitwarden
         namespace: flux-system
       version: 2024.12.x
-  install:
-    createNamespace: true
   interval: 1m0s
   timeout: 10m
   releaseName: bitwarden
@@ -338,41 +336,41 @@ spec:
     volume:
       dataprotection:
         # Use an existing PVC by specifying the name.
-        # existingClaim: bitwarden-self-host-dataprotection
+        existingClaim: bitwarden-self-host-dataprotection
         # Override the accessMode specified in general.volumeAccessMode
         # accessMode: ReadWriteOnce
         # Override the storageClass specified in sharedStorageClassName
         # storageClass: "shared-storage"
-        size: "1Gi"
+        # size: "1Gi"
         labels: {}
       attachments:
         # Use an existing PVC by specifying the name.
-        # existingClaim: bitwarden-self-host-attachments
+        existingClaim: bitwarden-self-host-attachments
         # Override the accessMode specified in general.volumeAccessMode
         # accessMode: ReadWriteOnce
         # Override the storageClass specified in sharedStorageClassName
         # storageClass: "shared-storage"
-        size: 1Gi
+        # size: 1Gi
         labels: {}
       licenses:
         # Use an existing PVC by specifying the name.
-        # existingClaim: bitwarden-self-host-licenses
+        existingClaim: bitwarden-self-host-licenses
         # Override the accessMode specified in general.volumeAccessMode
         # accessMode: ReadWriteOnce
         # Override the storageClass specified in sharedStorageClassName
         # storageClass: "shared-storage"
-        size: 1Gi
+        # size: 1Gi
         labels: {}
       logs:
         # Logs are disabled by default
         enabled: false
         # Use an existing PVC by specifying the name.
-        # existingClaim: 
+        existingClaim: bitwarden-self-host-logs
         # Override the accessMode specified in general.volumeAccessMode
         # accessMode: ReadWriteOnce
         # Override the storageClass specified in sharedStorageClassName
         # storageClass: "shared-storage"
-        size: 1Gi
+        # size: 1Gi
         labels: {}
 
     #
@@ -410,30 +408,30 @@ spec:
       volume:
         backups:
           # Use an existing PVC by specifying the name.
-          # existingClaim: bitwarden-self-host-mssqlbackups
+          existingClaim: bitwarden-self-host-mssqlbackups
           # Override the accessMode specified in general.volumeAccessMode
           # accessMode: ReadWriteOnce
           # Override the storageClass specified in sharedStorageClassName
           # storageClass: "shared-storage"
-          size: 1Gi
+          # size: 1Gi
           labels: {}
         data:
           # Use an existing PVC by specifying the name.
-          # existingClaim: bitwarden-self-host-mssqldata
+          existingClaim: bitwarden-self-host-mssqldata
           # Override the accessMode specified in general.volumeAccessMode
           # accessMode: ReadWriteOnce
           # Override the storageClass specified in sharedStorageClassName
           # storageClass: "shared-storage"
-          size: 10Gi
+          # size: 10Gi
           labels: {}
         log:
           # Use an existing PVC by specifying the name.
-          # existingClaim: bitwarden-self-host-mssqllog
+          existingClaim: bitwarden-self-host-mssqllog
           # Override the accessMode specified in general.volumeAccessMode
           # accessMode: ReadWriteOnce
           # Override the storageClass specified in sharedStorageClassName
           # storageClass: "shared-storage"
-          size: 10Gi
+          # size: 10Gi
           labels: {}
       # Specifies the strategy used to replace old Pods by new ones. The value can be "OnDelete" or "RollingUpdate". "OnDelete" is the default value.
       # When set to OnDelete, the SQL pod will not be recreated automatically on update.  It must be manually deleted to update.
