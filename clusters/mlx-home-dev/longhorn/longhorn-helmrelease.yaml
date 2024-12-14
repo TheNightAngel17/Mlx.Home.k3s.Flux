@@ -14,8 +14,6 @@ spec:
         name: longhorn-repo
         namespace: flux-system
       version: 1.7.x
-  install:
-    createNamespace: true
   interval: 1m0s
   releaseName: longhorn
   targetNamespace: longhorn-system

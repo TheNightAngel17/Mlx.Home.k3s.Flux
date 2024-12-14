@@ -4,5 +4,6 @@ metadata:
   name: cloudfrlared-kustomization
   namespace: flux-system
 resources:
+- cloudflared-namespace.yaml
 - cloudflared-configmap.yaml
 - cloudflared-deployment.yaml
