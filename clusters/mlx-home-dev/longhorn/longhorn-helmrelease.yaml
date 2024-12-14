@@ -19,3 +19,7 @@ spec:
   interval: 1m0s
   releaseName: longhorn
   targetNamespace: longhorn-system
+  values:
+    defaultSettings:
+      backupTarget: s3://longhorn-backup-dev@mlx-home/
+      backupTargetCredentialSecret: longhorn-minio-credentials
