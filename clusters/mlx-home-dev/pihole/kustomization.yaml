@@ -4,10 +4,8 @@ kind: Kustomization
 metadata:
   name: pihole-kustomization
   namespace: flux-system
-spec:
-  dependsOn:
-    - traefik-kustomization
 resources:
+- ../traefik/traefik-crds.yaml
 - pihole-namespace.yaml
 - pihole-sealedsecret.yaml
 - pihole-pvcs.yaml
