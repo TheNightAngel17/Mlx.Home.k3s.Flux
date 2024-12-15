@@ -5,6 +5,3 @@ metadata:
   namespace: flux-system
 resources:
 - cloudflared-namespace.yaml
-- cloudflared-sealedsecret.yaml
-- cloudflared-configmap.yaml
-- cloudflared-deployment.yaml
