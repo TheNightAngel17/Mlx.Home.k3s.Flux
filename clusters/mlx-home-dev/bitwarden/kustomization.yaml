@@ -3,6 +3,9 @@ kind: Kustomization
 metadata:
   name: bitwarden-kustomization
   namespace: flux-system
+spec:
+  dependsOn:
+    - traefik-kustomization
 resources:
 - bitwarden-namespace.yaml
 - bitwarden-sealedsecret.yaml
