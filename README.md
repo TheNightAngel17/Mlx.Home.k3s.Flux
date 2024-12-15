@@ -63,7 +63,7 @@ flux bootstrap git --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux 
 flux bootstrap git --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux --branch=init --path=clusters/mlx-home-prd --private-key-file=/home/lemonsml/.ssh/gh_flux_key
 ```
 
-## Access UI & restore
+## Access UI
 
 To restore backed-up volumes, you first need to access the UI. To do this, we will port-forward locally:
 
@@ -72,6 +72,16 @@ kubectl port-forward service/longhorn-frontend 8675:80 -n longhorn-system
 ```
 
 Then we will access http://localhost:8675/#/dashboard, which will land us at the dashboard. From the dashboard, restore all backup volumes
+
+## Restore Volumes
+
+1. Navigate to the Backup tab, select all backups, and then click the `Create Disaster Recovery Volume` button at the top.
+1. Navigate to Volume tab and wait for all volumes to read `Healthy` with a warning error.
+1. Select all volumes, click the more options next to the top button, and select `Activate Disaster Recovory Volume`, using block device.
+1. Once all volumes are activated, select all volumes, click the more options next to the top buttons, and select `Create PV/PVC
+   >***NOTE***: Make sure to check the `Use Previous PVC` checkbox in the dialog box.
+
+Once all of these have finished creating the PV/PVC, you can move ahead and bootstrap the full-service
 
 # 4. Bootstrap the Full Repository
 
