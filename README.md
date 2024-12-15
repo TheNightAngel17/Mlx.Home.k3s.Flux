@@ -90,5 +90,3 @@ after this has been boot-strapped, wait until all pods are ready
 ```bash
 kubectl get pods --all-namespaces -o wide
 ```
-
-# 3. Data Recovory
