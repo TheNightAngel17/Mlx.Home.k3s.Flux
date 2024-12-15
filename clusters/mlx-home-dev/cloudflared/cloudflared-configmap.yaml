@@ -27,21 +27,9 @@ data:
     # from the internet to cloudflared, run `cloudflared tunnel route dns <tunnel> <hostname>`.
     # E.g. `cloudflared tunnel route dns example-tunnel tunnel.example.com`.
     ingress:
-    - hostname: dev-nginx2.mlxsolutions.com
-      service: https://bitnami-nginx.bitnami-nginx
-      originRequest:
-        noTLSVerify: true
-    - hostname: dev-nginx1.mlxsolutions.com
-      service: https://traefik.traefik
-      originRequest:
-        noTLSVerify: true
     - hostname: dev-bitwarden.thelemonsclan.com
       service: https://traefik.traefik
       originRequest:
         noTLSVerify: true
-    # dummy service - used for testing if tunnel is available or not
-    # requires hostname to be routed to this tunnel via DNS
-    - hostname: hello.mlxsolutions.com
-      service: hello_world
     # This rule matches any traffic which didn't match a previous rule, and responds with HTTP 404.
     - service: http_status:404
