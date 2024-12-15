@@ -4,7 +4,6 @@ metadata:
   name: bitwarden-kustomization
   namespace: flux-system
 resources:
-- ../traefik/traefik-crds.yaml
 - bitwarden-namespace.yaml
 - bitwarden-sealedsecret.yaml
 - bitwarden-pvcs.yaml

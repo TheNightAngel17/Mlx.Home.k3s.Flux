@@ -5,7 +5,6 @@ metadata:
   name: pihole-kustomization
   namespace: flux-system
 resources:
-- ../traefik/traefik-crds.yaml
 - pihole-namespace.yaml
 - pihole-sealedsecret.yaml
 - pihole-pvcs.yaml
