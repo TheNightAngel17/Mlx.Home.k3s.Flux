@@ -5,7 +5,7 @@ metadata:
   name: longhorn-kustomization
   namespace: flux-system
 resources:
-  - longhorn-namespace.yaml
-  - longhorn-sealedsecret.yaml
-  - longhorn-helmsource.yaml
-  - longhorn-helmrelease.yaml
+- longhorn-namespace.yaml
+- longhorn-sealedsecret.yaml
+- longhorn-helmsource.yaml
+- longhorn-helmrelease.yaml
