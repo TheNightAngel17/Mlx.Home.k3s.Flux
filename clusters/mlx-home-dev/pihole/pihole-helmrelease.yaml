@@ -100,7 +100,7 @@ spec:
       externalTrafficPolicy: Local
     
       # -- A fixed `spec.loadBalancerIP` for the DHCP Service
-      loadBalancerIP: "10.17.17.101"
+      loadBalancerIP: "10.17.17.102"
       # -- A fixed `spec.loadBalancerIP` for the IPv6 DHCP Service
       loadBalancerIPv6: ""
     
