@@ -57,7 +57,7 @@ spec:
       mixedService: false
     
       # -- `spec.type` for the DNS Service
-      type: NodePort
+      type: LoadBalancer
     
       # -- The port of the DNS service
       port: 53
@@ -69,7 +69,7 @@ spec:
       externalTrafficPolicy: Local
     
       # -- A fixed `spec.loadBalancerIP` for the DNS Service
-      loadBalancerIP: ""
+      loadBalancerIP: "10.17.17.101"
       # -- A fixed `spec.loadBalancerIP` for the IPv6 DNS Service
       loadBalancerIPv6: ""
     
@@ -88,7 +88,7 @@ spec:
       enabled: true
     
       # -- `spec.type` for the DHCP Service
-      type: NodePort
+      type: LoadBalancer
     
       # -- The port of the DHCP service
       port: 67
@@ -100,7 +100,7 @@ spec:
       externalTrafficPolicy: Local
     
       # -- A fixed `spec.loadBalancerIP` for the DHCP Service
-      loadBalancerIP: ""
+      loadBalancerIP: "10.17.17.101"
       # -- A fixed `spec.loadBalancerIP` for the IPv6 DHCP Service
       loadBalancerIPv6: ""
     
