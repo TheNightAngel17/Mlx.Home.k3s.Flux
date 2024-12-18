@@ -23,17 +23,29 @@ data:
     # requests to. For more about ingress rules, see
     # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/ingress
     #
+    #
+    # 7c5d9e0d-2bd5-410d-bf9b-6b14122e168d.cfargotunnel.com
+    #
+    #
     # Remember, these rules route traffic from cloudflared to a local service. To route traffic
     # from the internet to cloudflared, run `cloudflared tunnel route dns <tunnel> <hostname>`.
     # E.g. `cloudflared tunnel route dns example-tunnel tunnel.example.com`.
     ingress:
-    - hostname: dev-bitwarden.thelemonsclan.com
-      service: https://traefik.traefik
-      originRequest:
-        noTLSVerify: true
-    - hostname: dev-night.sakagegaming.com
-      service: https://traefik.traefik
-      originRequest:
-        noTLSVerify: true
+    # - hostname: dev-bitwarden.thelemonsclan.com
+    #   service: https://traefik.traefik
+    #   originRequest:
+    #     noTLSVerify: true
+    # - hostname: dev-night.sakagegaming.com
+    #   service: https://traefik.traefik
+    #   originRequest:
+    #     noTLSVerify: true
+    # - hostname: dev-kaiga.sakagegaming.com
+    #   service: https://traefik.traefik
+    #   originRequest:
+    #     noTLSVerify: true
+    # - hostname: dev-blint.sakagegaming.com
+    #   service: https://traefik.traefik
+    #   originRequest:
+    #     noTLSVerify: true
     # This rule matches any traffic which didn't match a previous rule, and responds with HTTP 404.
     - service: http_status:404

@@ -11,9 +11,11 @@ resources:
 - foundry-vtt/kf/foundry-vtt-kf-namespace.yaml
 - foundry-vtt/kf/foundry-vtt-kf-sealedsecret.yaml
 - foundry-vtt/kf/foundry-vtt-kf-pvc.yaml
+- foundry-vtt/kf/foundry-vtt-kf-ingress.yaml
 - foundry-vtt/tjk/foundry-vtt-tjk-namespace.yaml
 - foundry-vtt/tjk/foundry-vtt-tjk-sealedsecret.yaml
 - foundry-vtt/tjk/foundry-vtt-tjk-pvc.yaml
+- foundry-vtt/tjk/foundry-vtt-tjk-ingress.yaml
 - mlx-charts-helmsource.yaml
 - foundry-vtt/mll/foundry-vtt-mll-helmrelease.yaml
 - foundry-vtt/kf/foundry-vtt-kf-helmrelease.yaml
