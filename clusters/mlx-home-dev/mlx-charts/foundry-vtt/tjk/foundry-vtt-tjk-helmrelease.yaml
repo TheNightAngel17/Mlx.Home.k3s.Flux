@@ -54,8 +54,8 @@ spec:
     ## @param service.labels Extra labels to assign to the Service
     ## @param service.tls Enable TLS for the Service
     ## @param service.annotations Extra annotations to assign to the Service
-    # service:
-    #   serviceType: LoadBalancer
+    service:
+      serviceType: ClusterIP
     #   port: 80
     #   protocol: TCP
     #   loadBalancerIP:
