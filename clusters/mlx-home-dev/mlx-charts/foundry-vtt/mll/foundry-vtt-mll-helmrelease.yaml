@@ -7,7 +7,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: self-host
+      chart: foundry-vtt
       reconcileStrategy: Revision
       sourceRef:
         kind: HelmRepository
