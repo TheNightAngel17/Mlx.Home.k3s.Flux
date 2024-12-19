@@ -6,7 +6,7 @@ metadata:
   namespace: home-assistant
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   storageClassName: longhorn
   resources:
     requests:
