@@ -16,7 +16,10 @@ resources:
 - foundry-vtt/tjk/foundry-vtt-tjk-sealedsecret.yaml
 - foundry-vtt/tjk/foundry-vtt-tjk-pvc.yaml
 - foundry-vtt/tjk/foundry-vtt-tjk-ingress.yaml
+- ddb-proxy/ddb-proxy-namespace.yaml
+- ddb-proxy/ddb-proxy-ingress.yaml
 - mlx-charts-helmsource.yaml
 - foundry-vtt/mll/foundry-vtt-mll-helmrelease.yaml
 - foundry-vtt/kf/foundry-vtt-kf-helmrelease.yaml
 - foundry-vtt/tjk/foundry-vtt-tjk-helmrelease.yaml
+- ddb-proxy/ddb-proxy-helmrelease.yaml
