@@ -18,13 +18,13 @@ spec:
   timeout: 10m
   releaseName: home-assistant
   targetNamespace: home-assistant
-  values:
-    # Environment variables
-    env: 
-    - name: TZ
-      value: America/Chicago
+  # values:
+  #   # Environment variables
+  #   env: 
+  #   - name: TZ
+  #     value: "America/Chicago"
 
-    # Persistence values for the Home Assistant instance
-    persistence:
-      enabled: true
-      existingVolume: "home-assistant-pvc"
+  #   # Persistence values for the Home Assistant instance
+  #   persistence:
+  #     enabled: true
+  #     existingVolume: "home-assistant-pvc"
