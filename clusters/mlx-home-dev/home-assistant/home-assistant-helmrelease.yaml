@@ -27,4 +27,4 @@
 #     # Persistence values for the Home Assistant instance
 #     persistence:
 #       enabled: true
-#       existingVolume: "home-assistant-pvc"
+#       existingVolume: "home-assistant-volume"

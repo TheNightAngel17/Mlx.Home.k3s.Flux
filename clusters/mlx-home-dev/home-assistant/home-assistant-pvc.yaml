@@ -8,6 +8,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: longhorn
+  volumeName: home-assistant-volume
   resources:
     requests:
       storage: 5Gi
