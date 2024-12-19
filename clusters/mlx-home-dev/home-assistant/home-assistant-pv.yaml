@@ -1,0 +1,12 @@
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: home-assistant-volume
+  namespace: home-assistant
+spec:
+  storageClassName: longhorn
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
