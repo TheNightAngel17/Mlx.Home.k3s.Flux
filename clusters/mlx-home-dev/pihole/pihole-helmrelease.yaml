@@ -69,7 +69,7 @@ spec:
       externalTrafficPolicy: Local
     
       # -- A fixed `spec.loadBalancerIP` for the DNS Service
-      loadBalancerIP: "10.17.17.101"
+      loadBalancerIP: ""
       # -- A fixed `spec.loadBalancerIP` for the IPv6 DNS Service
       loadBalancerIPv6: ""
     
@@ -85,7 +85,7 @@ spec:
     # -- Configuration for the DHCP service on port 67
     serviceDhcp:
       # -- Generate a Service resource for DHCP traffic
-      enabled: true
+      enabled: false
     
       # -- `spec.type` for the DHCP Service
       type: LoadBalancer
