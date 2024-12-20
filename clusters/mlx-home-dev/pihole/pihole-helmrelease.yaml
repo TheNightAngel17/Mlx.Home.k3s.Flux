@@ -54,7 +54,7 @@ spec:
     # -- Configuration for the DNS service on port 53
     serviceDns:
       # -- deploys a mixed (TCP + UDP) Service instead of separate ones
-      mixedService: false
+      mixedService: true
     
       # -- `spec.type` for the DNS Service
       type: LoadBalancer
@@ -69,7 +69,7 @@ spec:
       externalTrafficPolicy: Local
     
       # -- A fixed `spec.loadBalancerIP` for the DNS Service
-      loadBalancerIP: ""
+      loadBalancerIP: "10.17.17.101"
       # -- A fixed `spec.loadBalancerIP` for the IPv6 DNS Service
       loadBalancerIPv6: ""
     
