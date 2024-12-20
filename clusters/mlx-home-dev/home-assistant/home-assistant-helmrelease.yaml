@@ -29,14 +29,14 @@
       persistence:
         # Enable or disable persistence
         enabled: true
-        # Access mode for the persistent volume claim
-        accessMode: ReadWriteOnce
-        # Size of the persistent volume claim
-        size: 5Gi
-        # Storage class for the persistent volume claim
-        storageClass: "longhorn"
+        # # Access mode for the persistent volume claim
+        # accessMode: ReadWriteOnce
+        # # Size of the persistent volume claim
+        # size: 5Gi
+        # # Storage class for the persistent volume claim
+        # storageClass: "longhorn"
         # Name of the existing volume claim for the stateful set, this option can be used to use existing volumes
-        # existingVolume: "pvc-ddaf2d83-bd2e-46ca-a0fa-03477c7b1212"
+        existingVolume: "pvc-83934029-c26e-41c4-8e69-44b48ccd951a"
       configuration:
         enabled: true
         templateConfig: |-
