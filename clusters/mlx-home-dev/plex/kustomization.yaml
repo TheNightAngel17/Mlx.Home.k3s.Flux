@@ -6,7 +6,6 @@ metadata:
   namespace: flux-system
 resources:
   - plex-namespace.yaml
-  - plex-cifs-sealedsecret.yaml
   - plex-pvcs.yaml
   # - plex-helmsource.yaml
   # - plex-helmrelease.yaml
