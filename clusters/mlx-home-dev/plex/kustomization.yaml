@@ -7,6 +7,6 @@ metadata:
 resources:
   - plex-namespace.yaml
   - plex-cifs-sealedsecret.yaml
-  - plex-pvc.yaml
+  - plex-pvcs.yaml
   # - plex-helmsource.yaml
   # - plex-helmrelease.yaml
