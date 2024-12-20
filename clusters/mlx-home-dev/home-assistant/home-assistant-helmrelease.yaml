@@ -1,0 +1,46 @@
+---
+  apiVersion: helm.toolkit.fluxcd.io/v2
+  kind: HelmRelease
+  metadata:
+    name: home-assistant
+    namespace: flux-system
+  spec:
+    chart:
+      spec:
+        chart: home-assistant
+        reconcileStrategy: Revision
+        sourceRef:
+          kind: HelmRepository
+          name: home-assistant
+          namespace: flux-system
+        version: 0.2.x
+    interval: 1m0s
+    timeout: 10m
+    releaseName: home-assistant
+    targetNamespace: home-assistant
+    values:
+      image:
+        tag: "2024.12.4"
+      # Environment variables
+      env: 
+      - name: TZ
+        value: America/Chicago
+      # Persistence values for the Home Assistant instance
+      persistence:
+        # Enable or disable persistence
+        enabled: true
+        # Access mode for the persistent volume claim
+        accessMode: ReadWriteOnce
+        # Size of the persistent volume claim
+        size: 5Gi
+        # Storage class for the persistent volume claim
+        storageClass: "longhorn"
+        # Name of the existing volume claim for the stateful set, this option can be used to use existing volumes
+        # existingVolume: "pvc-ddaf2d83-bd2e-46ca-a0fa-03477c7b1212"
+      configuration:
+        enabled: true
+        trusted_proxies:
+          - 10.0.0.0/8
+          - 172.16.0.0/12
+          - 192.168.0.0/16
+          - 127.0.0.0/8
