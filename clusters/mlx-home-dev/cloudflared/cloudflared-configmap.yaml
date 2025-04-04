@@ -31,25 +31,25 @@ data:
     # from the internet to cloudflared, run `cloudflared tunnel route dns <tunnel> <hostname>`.
     # E.g. `cloudflared tunnel route dns example-tunnel tunnel.example.com`.
     ingress:
-      - hostname: dev-bitwarden.thelemonsclan.com
-        service: https://traefik.traefik
-        originRequest:
-          noTLSVerify: true
-      - hostname: dev-night.sakagegaming.com
-        service: https://traefik.traefik
-        originRequest:
-          noTLSVerify: true
-      - hostname: dev-kaiga.sakagegaming.com
-        service: https://traefik.traefik
-        originRequest:
-          noTLSVerify: true
-      - hostname: dev-blint.sakagegaming.com
-        service: https://traefik.traefik
-        originRequest:
-          noTLSVerify: true
-      - hostname: dev-ddb-proxy.sakagegaming.com
-        service: https://traefik.traefik
-        originRequest:
-          noTLSVerify: true
+    - hostname: dev-bitwarden.thelemonsclan.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
+    - hostname: dev-night.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
+    - hostname: dev-kaiga.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
+    - hostname: dev-blint.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
+    - hostname: dev-ddb-proxy.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
     # This rule matches any traffic which didn't match a previous rule, and responds with HTTP 404.
     - service: http_status:404
