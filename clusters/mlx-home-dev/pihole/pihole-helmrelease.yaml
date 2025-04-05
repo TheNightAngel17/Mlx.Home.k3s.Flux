@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: pihole
         namespace: flux-system
-      version: 2.27.x
+      version: 2.29.x
   interval: 1m0s
   releaseName: pihole
   targetNamespace: pihole
