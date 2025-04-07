@@ -1,0 +1,16 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: foundry-vtt-tjk-ingress
+  namespace: foundry-vtt-tjk
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`blint.sakagegaming.com`) 
+      services:
+        - kind: Service
+          name: foundry-vtt-tjk
+          passHostHeader: true
+          port: 80
