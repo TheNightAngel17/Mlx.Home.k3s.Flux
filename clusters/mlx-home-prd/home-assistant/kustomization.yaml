@@ -6,3 +6,6 @@ metadata:
   namespace: flux-system
 resources:
 - home-assistant-namespace.yaml
+- home-assistant-ingress.yaml
+- home-assistant-helmsource.yaml
+- home-assistant-helmrelease.yaml
