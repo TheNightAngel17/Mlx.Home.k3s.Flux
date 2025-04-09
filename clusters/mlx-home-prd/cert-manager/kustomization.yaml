@@ -5,3 +5,5 @@ metadata:
   namespace: flux-system
 resources:
 - certmanager-namespace.yaml
+- certmanager-helmsource.yaml
+- certmanager-helmrelease.yaml
