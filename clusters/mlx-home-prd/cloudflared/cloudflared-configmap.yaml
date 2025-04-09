@@ -30,7 +30,7 @@ data:
     # Remember, these rules route traffic from cloudflared to a local service. To route traffic
     # from the internet to cloudflared, run `cloudflared tunnel route dns <tunnel> <hostname>`.
     # E.g. `cloudflared tunnel route dns example-tunnel tunnel.example.com`.
-    ingress: []
+    ingress:
     # - hostname: bitwarden.thelemonsclan.com
     #   service: https://traefik.traefik
     #   originRequest:
@@ -51,5 +51,9 @@ data:
     #   service: https://traefik.traefik
     #   originRequest:
     #     noTLSVerify: true
+    - hostname: pihole.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
     # This rule matches any traffic which didn't match a previous rule, and responds with HTTP 404.
     - service: http_status:404
