@@ -1,0 +1,101 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: "bitwarden-self-host-middleware-stripprefix"
+  namespace: bitwarden
+spec:
+  stripPrefix:
+    prefixes:
+      - /api
+      - /attachements
+      - /icons
+      - /notifications
+      - /events
+      - /scim
+      ##### NOTE:  Admin, Identity, and SSO will not function correctly with path strip middleware
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: "bitwarden-self-host-ingress"
+  namespace: bitwarden
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`bitwarden.thelemonsclan.com`) && PathPrefix(`/`)
+      services:
+        - kind: Service
+          name: bitwarden-self-host-web
+          passHostHeader: true
+          port: 5000
+    - kind: Rule
+      match: Host(`bitwarden.thelemonsclan.com`) && PathPrefix(`/api/`)
+      services:
+        - kind: Service
+          name: bitwarden-self-host-api
+          port: 5000
+      middlewares:
+        - name: "bitwarden-self-host-middleware-stripprefix"
+    - kind: Rule
+      match: Host(`bitwarden.thelemonsclan.com`) && PathPrefix(`/attachments/`)
+      services:
+        - kind: Service
+          name: bitwarden-self-host-api
+          port: 5000
+      middlewares:
+        - name: "bitwarden-self-host-middleware-stripprefix"
+    - kind: Rule
+      match: Host(`bitwarden.thelemonsclan.com`) && PathPrefix(`/icons/`)
+      services:
+        - kind: Service
+          name: bitwarden-self-host-icons
+          port: 5000
+      middlewares:
+        - name: "bitwarden-self-host-middleware-stripprefix"
+    - kind: Rule
+      match: Host(`bitwarden.thelemonsclan.com`) && PathPrefix(`/notifications/`)
+      services:
+        - kind: Service
+          name: bitwarden-self-host-notifications
+          port: 5000
+      middlewares:
+        - name: "bitwarden-self-host-middleware-stripprefix"
+    - kind: Rule
+      match: Host(`bitwarden.thelemonsclan.com`) && PathPrefix(`/events/`)
+      services:
+        - kind: Service
+          name: bitwarden-self-host-events
+          port: 5000
+      middlewares:
+        - name: "bitwarden-self-host-middleware-stripprefix"
+    - kind: Rule
+      match: Host(`bitwarden.thelemonsclan.com`) && PathPrefix(`/scim/`)
+      services:
+        - kind: Service
+          name: bitwarden-self-host-scim
+          port: 5000
+      middlewares:
+        - name: "bitwarden-self-host-middleware-stripprefix"
+    ##### NOTE:  SSO will not function correctly with path strip middleware
+    - kind: Rule
+      match: Host(`bitwarden.thelemonsclan.com`) && PathPrefix(`/sso/`)
+      services:
+        - kind: Service
+          name: bitwarden-self-host-sso
+          port: 5000
+    ##### NOTE:  Identity will not function correctly with path strip middleware
+    - kind: Rule
+      match: Host(`bitwarden.thelemonsclan.com`) && PathPrefix(`/identity/`)
+      services:
+        - kind: Service
+          name: bitwarden-self-host-identity
+          port: 5000
+    ##### NOTE:  Admin will not function correctly with path strip middleware
+    - kind: Rule
+      match: Host(`bitwarden.thelemonsclan.com`) && PathPrefix(`/admin`)
+      services:
+        - kind: Service
+          name: bitwarden-self-host-admin
+          port: 5000

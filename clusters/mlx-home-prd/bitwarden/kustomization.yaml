@@ -5,3 +5,8 @@ metadata:
   namespace: flux-system
 resources:
 - bitwarden-namespace.yaml
+- bitwarden-sealedsecret.yaml
+- bitwarden-pvcs.yaml
+- bitwarden-helmsource.yaml
+- bitwarden-helmrelease.yaml
+- bitwarden-ingress.yaml
