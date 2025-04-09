@@ -28,15 +28,15 @@
       # Persistence values for the Home Assistant instance
       persistence:
         # Enable or disable persistence
-        enabled: true
+        # enabled: true
         # # Access mode for the persistent volume claim
-        accessMode: ReadWriteOnce
+        # accessMode: ReadWriteOnce
         # # Size of the persistent volume claim
-        size: 5Gi
+        # size: 5Gi
         # # Storage class for the persistent volume claim
-        storageClass: "longhorn"
+        # storageClass: "longhorn"
         # Name of the existing volume claim for the stateful set, this option can be used to use existing volumes
-        # existingVolume: "pvc-83934029-c26e-41c4-8e69-44b48ccd951a"
+        existingVolume: "pvc-0cfe4616-b50c-48b6-a44e-1ec9134b7928"
       configuration:
         enabled: true
         templateConfig: |-

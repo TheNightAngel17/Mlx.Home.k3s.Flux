@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 resources:
 - pihole-namespace.yaml
-- pihole-sealedsecret.yaml
+- pihole-sealedsecret.yaml 
 - pihole-pvcs.yaml
 - pihole-helmsource.yaml
 - pihole-helmrelease.yaml
