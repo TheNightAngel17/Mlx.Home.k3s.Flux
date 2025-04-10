@@ -17,10 +17,7 @@ spec:
   interval: 1m0s
   releaseName: traefik
   targetNamespace: traefik
-  values:
-    logs:
-      access:
-        enabled: true      
+  values:   
     ingressRoute:
       dashboard:
         enabled: true
