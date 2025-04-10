@@ -13,11 +13,14 @@ spec:
         kind: HelmRepository
         name: traefik
         namespace: flux-system
-      version: 33.2.x
+      version: 35.0.x
   interval: 1m0s
   releaseName: traefik
   targetNamespace: traefik
   values:
+    logs:
+      access:
+        enabled: true      
     ingressRoute:
       dashboard:
         enabled: true
