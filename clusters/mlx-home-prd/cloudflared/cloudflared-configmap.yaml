@@ -31,10 +31,10 @@ data:
     # from the internet to cloudflared, run `cloudflared tunnel route dns <tunnel> <hostname>`.
     # E.g. `cloudflared tunnel route dns example-tunnel tunnel.example.com`.
     ingress:
-    # - hostname: bitwarden.thelemonsclan.com
-    #   service: https://traefik.traefik
-    #   originRequest:
-    #     noTLSVerify: true
+    - hostname: bitwarden.thelemonsclan.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
     # - hostname: night.sakagegaming.com
     #   service: https://traefik.traefik
     #   originRequest:
