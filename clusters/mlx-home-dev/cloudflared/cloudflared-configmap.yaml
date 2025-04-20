@@ -35,6 +35,10 @@ data:
       service: https://traefik.traefik
       originRequest:
         noTLSVerify: true
+    - hostname: dev-kube.thelemonsclan.com
+      service: https://127.0.0.1:6443
+      originRequest:
+        noTLSVerify: true
     - hostname: dev-night.sakagegaming.com
       service: https://traefik.traefik
       originRequest:
