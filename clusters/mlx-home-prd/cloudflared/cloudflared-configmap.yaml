@@ -35,6 +35,14 @@ data:
       service: https://traefik.traefik
       originRequest:
         noTLSVerify: true
+    - hostname: www.mitchell-lemons.info
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
+    - hostname: mitchell-lemons.info
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
     # - hostname: night.sakagegaming.com
     #   service: https://traefik.traefik
     #   originRequest:
