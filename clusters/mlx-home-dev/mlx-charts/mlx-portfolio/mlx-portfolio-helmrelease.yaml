@@ -18,3 +18,9 @@ spec:
   timeout: 10m
   releaseName: mlx-portfolio
   targetNamespace: mlx-portfolio
+  values:
+    image:
+      repository: ghcr.io/thenightangel17/portfolio
+      pullPolicy: IfNotPresent
+      # Specify the image tag on PROD release
+      tag: "v0.0.3"
