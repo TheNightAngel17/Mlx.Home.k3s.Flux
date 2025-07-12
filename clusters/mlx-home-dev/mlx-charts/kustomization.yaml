@@ -7,4 +7,5 @@ resources:
 - foundry-vtt/mll/foundry-vtt-mll-namespace.yaml
 - foundry-vtt/kf/foundry-vtt-kf-namespace.yaml
 - foundry-vtt/tjk/foundry-vtt-tjk-namespace.yaml
+- foundry-vtt/tw/foundry-vtt-tw-namespace.yaml
 - ddb-proxy/ddb-proxy-namespace.yaml
