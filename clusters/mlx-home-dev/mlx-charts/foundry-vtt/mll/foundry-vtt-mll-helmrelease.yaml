@@ -19,6 +19,17 @@ spec:
   releaseName: foundry-vtt-mll
   targetNamespace: foundry-vtt-mll
   values:
+
+    ## @section Image Parameters
+    ## @param image.pullPolicy pullPolicy for the Image
+    ## @param image.repository Repository to take the Image from
+    ## @param image.tag Image Tag
+    image:
+      pullPolicy: IfNotPresent
+      repository: felddy/foundryvtt
+      tag: "12.343.0"
+
+
     ## @section Pod Resources
     ## @param resources.requests.cpu Percentile of CPU Requested to run
     ## @param resources.requests.memory RAM Requested to run
