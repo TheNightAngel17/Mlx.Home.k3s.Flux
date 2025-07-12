@@ -16,6 +16,8 @@ resources:
 - foundry-vtt/tjk/foundry-vtt-tjk-sealedsecret.yaml
 - foundry-vtt/tjk/foundry-vtt-tjk-pvc.yaml
 - foundry-vtt/tjk/foundry-vtt-tjk-ingress.yaml
+- foundry-vtt/tw/foundry-vtt-tw-namespace.yaml
+- foundry-vtt/tw/foundry-vtt-tw-sealedsecret.yaml
 - mlx-portfolio/mlx-portfolio-namespace.yaml
 - mlx-portfolio/mlx-portfolio-ingress.yaml
 - ddb-proxy/ddb-proxy-namespace.yaml
