@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: foundry-vtt-tw
+  labels:
+    name: foundry-vtt-tw
