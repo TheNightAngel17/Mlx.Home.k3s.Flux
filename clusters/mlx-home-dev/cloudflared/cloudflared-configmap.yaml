@@ -51,6 +51,10 @@ data:
       service: https://traefik.traefik
       originRequest:
         noTLSVerify: true
+    - hostname: dev-gyre.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
     - hostname: dev-ddb-proxy.sakagegaming.com
       service: https://traefik.traefik
       originRequest:
