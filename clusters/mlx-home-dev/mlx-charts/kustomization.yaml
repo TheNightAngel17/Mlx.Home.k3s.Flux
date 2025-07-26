@@ -5,9 +5,9 @@ metadata:
   namespace: flux-system
 resources:
 - foundry-vtt/mll/foundry-vtt-mll-namespace.yaml
-- foundry-vtt/mll/foundry-vtt-mll-sealedsecret.yaml
-- foundry-vtt/mll/foundry-vtt-mll-pvc.yaml
-- foundry-vtt/mll/foundry-vtt-mll-ingress.yaml
+# - foundry-vtt/mll/foundry-vtt-mll-sealedsecret.yaml
+# - foundry-vtt/mll/foundry-vtt-mll-pvc.yaml
+# - foundry-vtt/mll/foundry-vtt-mll-ingress.yaml
 - foundry-vtt/kf/foundry-vtt-kf-namespace.yaml
 - foundry-vtt/kf/foundry-vtt-kf-sealedsecret.yaml
 - foundry-vtt/kf/foundry-vtt-kf-pvc.yaml
