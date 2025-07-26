@@ -25,7 +25,7 @@ resources:
 - ddb-proxy/ddb-proxy-namespace.yaml
 - ddb-proxy/ddb-proxy-ingress.yaml
 - mlx-charts-helmsource.yaml
-- foundry-vtt/mll/foundry-vtt-mll-helmrelease.yaml
+# - foundry-vtt/mll/foundry-vtt-mll-helmrelease.yaml
 - foundry-vtt/kf/foundry-vtt-kf-helmrelease.yaml
 - foundry-vtt/tjk/foundry-vtt-tjk-helmrelease.yaml
 - foundry-vtt/tw/foundry-vtt-tw-helmrelease.yaml
