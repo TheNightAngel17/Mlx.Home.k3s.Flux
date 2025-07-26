@@ -8,7 +8,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`night.sakagegaming.com`) 
+      match: Host(`night2.sakagegaming.com`) 
       services:
         - kind: Service
           name: foundry-vtt-mll
