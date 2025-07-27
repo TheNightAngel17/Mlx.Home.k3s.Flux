@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: mlx-charts
         namespace: flux-system
-      version: 13.346.x
+      version: 13.345.x
   interval: 1m0s
   timeout: 10m
   releaseName: foundry-vtt-mll
