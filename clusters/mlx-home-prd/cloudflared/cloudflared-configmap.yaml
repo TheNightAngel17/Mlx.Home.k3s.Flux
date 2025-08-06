@@ -55,6 +55,10 @@ data:
     #   service: https://traefik.traefik
     #   originRequest:
     #     noTLSVerify: true
+    - hostname: night2.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
     - hostname: gyre.sakagegaming.com
       service: https://traefik.traefik
       originRequest:
