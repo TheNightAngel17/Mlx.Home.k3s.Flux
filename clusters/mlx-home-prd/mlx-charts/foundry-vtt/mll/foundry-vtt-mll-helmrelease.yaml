@@ -71,3 +71,4 @@ spec:
       ## If an you have an existing secret you want to use, uncomment and place the name
       ## This secret must have 'username', 'password', 'adminPassword', and 'licenseKey'
       existingSecretName: "foundry-vtt-mll-secret"
+      minifyStaticFiles: true
