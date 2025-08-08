@@ -32,7 +32,6 @@ spec:
         memory: "150Mi"
     autoscaling:
       enabled: true
-      maxReplicas: 2
       metrics:
       - type: Resource
         resource:
