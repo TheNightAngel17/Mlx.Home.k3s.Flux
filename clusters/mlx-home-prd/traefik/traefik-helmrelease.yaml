@@ -25,11 +25,11 @@ spec:
       replicas: null
     resources:
       requests:
-        cpu: "100m"
-        memory: "50Mi"
+        cpu: "300m"
+        memory: "256Mi"
       limits:
         cpu: "300m"
-        memory: "150Mi"
+        memory: "256Mi"
     autoscaling:
       enabled: true
       maxReplicas: 10
