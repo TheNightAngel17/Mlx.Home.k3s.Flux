@@ -5,8 +5,7 @@ metadata:
   namespace: flux-system
 resources:
 - jellyfin-namespace.yaml
-# - bitwarden-sealedsecret.yaml
 - jellyfin-pvcs.yaml
-# - bitwarden-helmsource.yaml
-# - bitwarden-helmrelease.yaml
+- jellyfin-helmsource.yaml
+- jellyfin-helmrelease.yaml
 # - bitwarden-ingress.yaml
