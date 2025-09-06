@@ -6,7 +6,7 @@ metadata:
 resources:
 - jellyfin-namespace.yaml
 # - bitwarden-sealedsecret.yaml
-- bitwarden-pvcs.yaml
+- jellyfin-pvcs.yaml
 # - bitwarden-helmsource.yaml
 # - bitwarden-helmrelease.yaml
 # - bitwarden-ingress.yaml
