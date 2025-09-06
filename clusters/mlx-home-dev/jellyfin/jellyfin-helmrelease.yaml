@@ -7,7 +7,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: self-host
+      chart: jellyfin
       reconcileStrategy: Revision
       sourceRef:
         kind: HelmRepository
