@@ -8,4 +8,4 @@ resources:
 - jellyfin-pvcs.yaml
 - jellyfin-helmsource.yaml
 - jellyfin-helmrelease.yaml
-# - bitwarden-ingress.yaml
+- jellyfin-ingress.yaml
