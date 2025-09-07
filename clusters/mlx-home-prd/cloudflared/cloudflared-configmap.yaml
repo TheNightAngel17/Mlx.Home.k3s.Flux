@@ -71,7 +71,7 @@ data:
       service: https://traefik.traefik
       originRequest:
         noTLSVerify: true
-    - hostname: jellyfin.sakagegaming.com
+    - hostname: jellyfin.thelemonsclan.com
       service: https://traefik.traefik
       originRequest:
         noTLSVerify: true
