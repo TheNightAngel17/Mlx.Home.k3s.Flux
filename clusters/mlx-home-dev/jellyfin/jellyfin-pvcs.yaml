@@ -20,12 +20,12 @@ metadata:
 spec:
   storageClassName: ""
   capacity:
-    storage: 1Ti                   # < max. size we reserve for the pv. A bigger value than the configdata
+    storage: 10Ti                   # < max. size we reserve for the pv. A bigger value than the configdata
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    path: /mnt/Tank/Media-Multi       
+    path: /mnt/Tank/Media-Multi-Dev
     server: 10.17.16.100
     readOnly: false
 ---
@@ -42,4 +42,4 @@ spec:
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 1T
+      storage: 10T
