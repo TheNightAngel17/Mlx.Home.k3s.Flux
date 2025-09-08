@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 resources:
 - jellyfin-namespace.yaml
-# - jellyfin-pvcs.yaml
-# - jellyfin-helmsource.yaml
-# - jellyfin-helmrelease.yaml
-# - jellyfin-ingress.yaml
+- jellyfin-pvcs.yaml
+- jellyfin-helmsource.yaml
+- jellyfin-helmrelease.yaml
+- jellyfin-ingress.yaml
