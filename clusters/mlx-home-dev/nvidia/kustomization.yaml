@@ -6,3 +6,5 @@ metadata:
 resources:
 - nvidia-runtimeclass.yaml
 - nvidia-helmrepository.yaml
+- nvidia-helmrelease-deviceplugin.yaml
+- nvidia-helmrelease-featurediscovory.yaml
