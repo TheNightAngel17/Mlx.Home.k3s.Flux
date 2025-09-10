@@ -72,7 +72,7 @@ spec:
       # runAsUser: 1000
 
     # -- Define a custom runtimeClassName for the pod.
-    runtimeClassName: ''
+    runtimeClassName: 'nvidia'
 
     # -- Define a priorityClassName for the pod.
     priorityClassName: ""
@@ -130,8 +130,9 @@ spec:
       #      - chart-example.local
 
     # -- Resource requests and limits for the Jellyfin container.
-    resources: {}
-      # limits:
+    resources:
+      limits:
+        nvidia.com/gpu: 1      
       #   cpu: 100m
       #   memory: 128Mi
       # requests:
