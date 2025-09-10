@@ -88,13 +88,13 @@ spec:
       # # -- Custom name for the service port
       # name: http
       # -- Service type (ClusterIP, NodePort, or LoadBalancer).
-      type: ClusterIP
+      type: LoadBalancer
       # -- Configure dual-stack IP family policy. See: https://kubernetes.io/docs/concepts/services-networking/dual-stack/
       ipFamilyPolicy: ""
       # -- Supported IP families (IPv4, IPv6).
       ipFamilies: []
       # -- Specific IP address for the LoadBalancer.
-      loadBalancerIP: ""
+      loadBalancerIP: "10.17.18.101"
       # -- Class of the LoadBalancer.
       loadBalancerClass: ""
       # -- Source ranges allowed to access the LoadBalancer.
