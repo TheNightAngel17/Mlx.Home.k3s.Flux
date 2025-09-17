@@ -43,19 +43,15 @@ data:
       service: https://traefik.traefik
       originRequest:
         noTLSVerify: true
-    # - hostname: night.sakagegaming.com
-    #   service: https://traefik.traefik
-    #   originRequest:
-    #     noTLSVerify: true
-    # - hostname: kaiga.sakagegaming.com
-    #   service: https://traefik.traefik
-    #   originRequest:
-    #     noTLSVerify: true
-    # - hostname: blint.sakagegaming.com
-    #   service: https://traefik.traefik
-    #   originRequest:
-    #     noTLSVerify: true
-    - hostname: night2.sakagegaming.com
+    - hostname: night.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
+    - hostname: kaiga.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
+    - hostname: blint.sakagegaming.com
       service: https://traefik.traefik
       originRequest:
         noTLSVerify: true
