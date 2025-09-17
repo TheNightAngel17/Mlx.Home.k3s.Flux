@@ -30,7 +30,7 @@
         enabled: true
         existingVolume: "home-assistant-pvc"
       configuration:
-        enabled: true
+        enabled: false
         # templateConfig: |-
         #   # Loads default set of integrations. Do not remove.
         #   default_config:
