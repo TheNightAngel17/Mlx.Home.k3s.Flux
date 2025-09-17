@@ -59,10 +59,10 @@ data:
       service: https://traefik.traefik
       originRequest:
         noTLSVerify: true
-    # - hostname: ddb-proxy.sakagegaming.com
-    #   service: https://traefik.traefik
-    #   originRequest:
-    #     noTLSVerify: true
+    - hostname: ddb-proxy.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
     - hostname: pihole.sakagegaming.com
       service: https://traefik.traefik
       originRequest:
