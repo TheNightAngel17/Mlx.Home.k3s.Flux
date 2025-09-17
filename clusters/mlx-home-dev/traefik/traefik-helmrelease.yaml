@@ -18,8 +18,6 @@ spec:
   releaseName: traefik
   targetNamespace: traefik
   values:  
-    # api:
-    #   dashboard: true
     certificatesResolvers:
       letsencrypt:
         acme:
@@ -36,10 +34,10 @@ spec:
           secretKeyRef:
             name: cloudflare-api-token-secret
             key: api-token
-    ports:
-      traefik:
-        expose:
-          default: true
+    # ports:
+    #   traefik:
+    #     expose:
+    #       default: true
     ingressRoute:
       dashboard:
         enabled: true
