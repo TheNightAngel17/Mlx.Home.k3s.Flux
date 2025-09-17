@@ -14,3 +14,5 @@ spec:
           name: foundry-vtt-tjk
           passHostHeader: true
           port: 80
+  tls:
+    certResolver: letsencrypt
