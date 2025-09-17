@@ -1,11 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  name: example-issuer
+  name: cloudflare-issuer
 spec:
   acme:
     email: lemonsml@outlook.com
     server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: cloudflare-issuer-account-key
     solvers:
     - dns01:
         cloudflare:
