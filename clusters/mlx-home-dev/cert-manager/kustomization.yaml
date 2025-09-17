@@ -6,7 +6,5 @@ metadata:
 resources:
 - certmanager-namespace.yaml
 - certmanager-helmsource.yaml
-- certmanager-cloudflare-sealedsecret.yaml
 - certmanager-helmrelease.yaml
-# - certmanager-cloudflareissuer.yaml
 
