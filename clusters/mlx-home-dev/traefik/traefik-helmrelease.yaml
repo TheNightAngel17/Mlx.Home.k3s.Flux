@@ -18,15 +18,15 @@ spec:
   releaseName: traefik
   targetNamespace: traefik
   values:  
-    additionalArguments:
-      - "--api.dashboard=true"
-      - "--api.insecure=true"
-    ports:
-      traefik:
-        expose: true
-        port: 9000
-        exposePort: 9000
-        protocol: TCP
+    # additionalArguments:
+    #   - "--api.dashboard=true"
+    #   - "--api.insecure=true"
+    # ports:
+    #   traefik:
+    #     expose: true
+    #     port: 9000
+    #     exposePort: 9000
+    #     protocol: TCP
     ingressRoute:
       dashboard:
         enabled: true
