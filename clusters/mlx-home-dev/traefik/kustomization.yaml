@@ -8,4 +8,5 @@ resources:
   - traefik-namespace.yaml
   - traefik-crds.yaml
   - traefik-helmsource.yaml
+  - traefik-cloudflare-sealedsecret.yaml
   - traefik-helmrelease.yaml
