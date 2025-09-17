@@ -36,7 +36,7 @@
         # # Storage class for the persistent volume claim
         # storageClass: "longhorn"
         # Name of the existing volume claim for the stateful set, this option can be used to use existing volumes
-        existingVolume: "pvc-83934029-c26e-41c4-8e69-44b48ccd951a"
+        existingVolume: "home-assistant-pvc"
       configuration:
         enabled: true
         templateConfig: |-

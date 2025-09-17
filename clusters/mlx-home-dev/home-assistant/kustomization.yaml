@@ -7,7 +7,7 @@ metadata:
 resources:
 - home-assistant-namespace.yaml
 - home-assistant-pvc.yaml
-# - home-assistant-ingress.yaml
+- home-assistant-ingress.yaml
 - home-assistant-helmsource.yaml
-# - home-assistant-helmrelease.yaml
+- home-assistant-helmrelease.yaml
 
