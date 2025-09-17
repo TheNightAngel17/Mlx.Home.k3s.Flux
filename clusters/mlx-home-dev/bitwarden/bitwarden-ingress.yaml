@@ -70,14 +70,14 @@ spec:
           port: 5000
       middlewares:
         - name: "bitwarden-self-host-middleware-stripprefix"
-    - kind: Rule
-      match: Host(`dev-bitwarden.thelemonsclan.com`) && PathPrefix(`/scim/`)
-      services:
-        - kind: Service
-          name: bitwarden-self-host-scim
-          port: 5000
-      middlewares:
-        - name: "bitwarden-self-host-middleware-stripprefix"
+    # - kind: Rule
+    #   match: Host(`dev-bitwarden.thelemonsclan.com`) && PathPrefix(`/scim/`)
+    #   services:
+    #     - kind: Service
+    #       name: bitwarden-self-host-scim
+    #       port: 5000
+    #   middlewares:
+    #     - name: "bitwarden-self-host-middleware-stripprefix"
     ##### NOTE:  SSO will not function correctly with path strip middleware
     - kind: Rule
       match: Host(`dev-bitwarden.thelemonsclan.com`) && PathPrefix(`/sso/`)

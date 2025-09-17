@@ -18,8 +18,12 @@ spec:
   releaseName: traefik
   targetNamespace: traefik
   values:  
-    api:
-      dashboard: true
+    # api:
+    #   dashboard: true
+    ports:
+      traefik:
+        expose:
+          default: true
     ingressRoute:
       dashboard:
         enabled: true
