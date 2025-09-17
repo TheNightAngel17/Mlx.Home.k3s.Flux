@@ -14,3 +14,5 @@ spec:
           name: jellyfin
           passHostHeader: true
           port: 8096
+  tls:
+    certResolver: letsencrypt
