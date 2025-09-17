@@ -9,3 +9,4 @@ resources:
 - foundry-vtt/tjk/foundry-vtt-tjk-namespace.yaml
 - foundry-vtt/tw/foundry-vtt-tw-namespace.yaml
 - ddb-proxy/ddb-proxy-namespace.yaml
+- mlx-portfolio/mlx -portfolio-namespace.yaml

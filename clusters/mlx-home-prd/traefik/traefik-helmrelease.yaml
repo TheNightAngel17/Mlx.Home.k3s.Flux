@@ -13,11 +13,11 @@ spec:
         kind: HelmRepository
         name: traefik
         namespace: flux-system
-      version: 33.2.x
+      version: 35.0.x
   interval: 1m0s
   releaseName: traefik
   targetNamespace: traefik
-  values:
+  values:   
     ingressRoute:
       dashboard:
         enabled: true
@@ -25,18 +25,25 @@ spec:
       replicas: null
     resources:
       requests:
-        cpu: "100m"
-        memory: "50Mi"
+        cpu: "300m"
+        memory: "256Mi"
       limits:
         cpu: "300m"
-        memory: "150Mi"
+        memory: "256Mi"
     autoscaling:
       enabled: true
-      maxReplicas: 2
+      maxReplicas: 10
+      minReplicas: 2
       metrics:
       - type: Resource
         resource:
           name: cpu
+          target:
+            type: Utilization
+            averageUtilization: 80
+      - type: Resource
+        resource:
+          name: memory
           target:
             type: Utilization
             averageUtilization: 80
