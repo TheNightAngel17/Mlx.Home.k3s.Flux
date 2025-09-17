@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: mlx-charts
         namespace: flux-system
-      version: 12.331.x
+      version: 13.348.x
   interval: 1m0s
   timeout: 10m
   releaseName: foundry-vtt-tjk
@@ -71,3 +71,5 @@ spec:
       ## If an you have an existing secret you want to use, uncomment and place the name
       ## This secret must have 'username', 'password', 'adminPassword', and 'licenseKey'
       existingSecretName: "foundry-vtt-tjk-secret"
+      minifyStaticFiles: true
+

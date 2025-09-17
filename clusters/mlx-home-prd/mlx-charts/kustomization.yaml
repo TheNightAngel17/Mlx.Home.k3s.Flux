@@ -13,9 +13,9 @@ resources:
 # - foundry-vtt/kf/foundry-vtt-kf-pvc.yaml
 # - foundry-vtt/kf/foundry-vtt-kf-ingress.yaml
 - foundry-vtt/tjk/foundry-vtt-tjk-namespace.yaml
-# - foundry-vtt/tjk/foundry-vtt-tjk-sealedsecret.yaml
-# - foundry-vtt/tjk/foundry-vtt-tjk-pvc.yaml
-# - foundry-vtt/tjk/foundry-vtt-tjk-ingress.yaml
+- foundry-vtt/tjk/foundry-vtt-tjk-sealedsecret.yaml
+- foundry-vtt/tjk/foundry-vtt-tjk-pvc.yaml
+- foundry-vtt/tjk/foundry-vtt-tjk-ingress.yaml
 - foundry-vtt/tw/foundry-vtt-tw-namespace.yaml
 - foundry-vtt/tw/foundry-vtt-tw-sealedsecret.yaml
 - foundry-vtt/tw/foundry-vtt-tw-pvc.yaml
@@ -27,7 +27,7 @@ resources:
 - mlx-charts-helmsource.yaml
 - foundry-vtt/mll/foundry-vtt-mll-helmrelease.yaml
 # - foundry-vtt/kf/foundry-vtt-kf-helmrelease.yaml
-# - foundry-vtt/tjk/foundry-vtt-tjk-helmrelease.yaml
+- foundry-vtt/tjk/foundry-vtt-tjk-helmrelease.yaml
 - foundry-vtt/tw/foundry-vtt-tw-helmrelease.yaml
 - ddb-proxy/ddb-proxy-helmrelease.yaml
 - mlx-portfolio/mlx-portfolio-helmrelease.yaml
