@@ -25,7 +25,8 @@ spec:
         acme:
           email: "lemonsml@outlook.com"
           storage: /data/acme.json
-          caServer: https://acme-staging-v02.api.letsencrypt.org/directory # Staging server          
+          caServer: https://acme-v02.api.letsencrypt.org/directory # Production server
+          #caServer: https://acme-staging-v02.api.letsencrypt.org/directory # Staging server          
           dnsChallenge:
             provider: cloudflare
             delayBeforeCheck: 0
