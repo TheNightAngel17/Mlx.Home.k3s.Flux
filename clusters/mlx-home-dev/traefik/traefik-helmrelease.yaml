@@ -20,14 +20,14 @@ spec:
   values:  
     additionalArguments:
       - "--api.dashboard=true"
-      - "--api.insecure=true"
-    ports:
-      dashboard:
-        expose:
-          default: true
-        port: 9000
-        exposePort: 9000
-        protocol: TCP
+    #   - "--api.insecure=true"
+    # ports:
+    #   dashboard:
+    #     expose:
+    #       default: true
+    #     port: 9000
+    #     exposePort: 9000
+    #     protocol: TCP
     ingressRoute:
       dashboard:
         enabled: true
