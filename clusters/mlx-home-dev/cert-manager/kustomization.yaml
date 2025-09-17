@@ -8,5 +8,5 @@ resources:
 - certmanager-helmsource.yaml
 - certmanager-cloudflare-sealedsecret.yaml
 - certmanager-helmrelease.yaml
-- certmanager-cloudflareissuer.yaml
+# - certmanager-cloudflareissuer.yaml
 
