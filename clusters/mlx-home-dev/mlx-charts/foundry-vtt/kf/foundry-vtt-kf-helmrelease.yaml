@@ -13,12 +13,16 @@ spec:
         kind: HelmRepository
         name: mlx-charts
         namespace: flux-system
-      version: 12.343.x
+      version: 13.348.x
   interval: 1m0s
   timeout: 10m
   releaseName: foundry-vtt-kf
   targetNamespace: foundry-vtt-kf
   values:
+    securityContext:
+      runAsUser: 421
+      runAsGroup: 421
+      fsGroup: 421
     ## @section Pod Resources
     ## @param resources.requests.cpu Percentile of CPU Requested to run
     ## @param resources.requests.memory RAM Requested to run
