@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: foundry-vtt-mll-kustomization
+  namespace: flux-system
+resources:
+- foundry-vtt-mll-helmsource.yaml
+- foundry-vtt-mll-sealedsecret.yaml
+- foundry-vtt-mll-pvc.yaml
+- foundry-vtt-mll-ingress.yaml
+- foundry-vtt-mll-helmrelease.yaml
