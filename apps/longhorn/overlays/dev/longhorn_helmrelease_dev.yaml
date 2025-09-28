@@ -1,0 +1,9 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn-release
+  namespace: flux-system
+spec:
+  values:
+    defaultSettings:
+      backupTarget: s3://longhorn-backup-dev@mlx-home/

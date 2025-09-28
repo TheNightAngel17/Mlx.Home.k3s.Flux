@@ -2,8 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 # Cluster dev full deployment aggregates app overlays
 resources:
+  - ../namespaces.yaml
   - ../../apps/bitwarden/overlays/dev
   - ../../apps/cert-manager/overlays/dev
   - ../../apps/cloudflared/overlays/dev
   - ../../apps/home-assistant/overlays/dev
   - ../../apps/jellyfin/overlays/dev
+  - ../../apps/longhorn/overlays/dev
