@@ -8,7 +8,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`jellyfin.thelemonsclan.com`)
+      match: Host(`jellyfin.thelemonsclan.com`) 
       services:
         - kind: Service
           name: jellyfin
