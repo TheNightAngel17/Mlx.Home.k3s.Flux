@@ -1,0 +1,26 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mlx-portfolio
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: mlx-portfolio
+      reconcileStrategy: Revision
+      sourceRef:
+        kind: HelmRepository
+        name: mlx-charts
+        namespace: flux-system
+      version: 0.1.x
+  interval: 1m0s
+  timeout: 10m
+  releaseName: mlx-portfolio
+  targetNamespace: mlx-portfolio
+  values:
+    image:
+      repository: ghcr.io/thenightangel17/portfolio
+      pullPolicy: IfNotPresent
+      # Specify the image tag on PROD release
+      tag: "v0.0.4"

@@ -12,3 +12,4 @@ resources:
   - ../../apps/nvidia/overlays/dev
   - ../../apps/pihole/overlays/dev
   - ../../apps/traefik/overlays/dev
+  - ../../apps/mlx-portfolio/overlays/dev
