@@ -157,3 +157,38 @@ Havave a folder strucutre that looks like:
         |   └── kustomization.yaml
         └── full
             └── kustomization.yaml
+
+## App Definitions:
+- bitwarden
+- cert-manager
+- cloudflared
+- home-assistant
+- jellyfin
+- longhorn
+- foundry-vtt
+   - mll
+   - kf
+   - tjk
+   - tw
+- ddb-proxy
+- mlx-portfolio
+- nvidia
+- pihole
+- traefik
+
+## App Migration Strategy
+For each applicaiton
+1. Create all necesary folder for the app, and add generic `kustomization.yaml` files for each overlay
+2. copy the current mlx-home-prod cluster for that application into `base/`
+3. foreach file in mlx-home-dev cluster for that application, reconcile the resource against the resource in `base/`
+   - If there are differences:
+      - Add a patch file in the `prd/` overlay destination folder with the prd values
+      - update the `prd/` kustomization to add the prd patch file
+      - Add a patch file in the `dev/` overlay destination folder with the dev values
+      - update the `dev/` kustomization to add the dev patch file
+      - update the file in `base/` to have "generic values" if appropriate
+   - If there are no differences, contiue to next file
+   - update `/clusters/dev/full/kustomization.yaml` to reference the dev overlay
+   - update `/clusters/prd/full/kustomization.yaml` to reference the prd overlay
+
+Note that instanced apps such as `foundry-vtt` may have different instance-specific folder/file structure. Ensure that when reconciling the files in those, you are updateing the proper instance-specific overlay

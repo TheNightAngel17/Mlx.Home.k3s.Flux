@@ -1,0 +1,10 @@
+# Patch: dev-specific domain only
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: bitwarden
+  namespace: flux-system
+spec:
+  values:
+    general:
+      domain: "dev-bitwarden.thelemonsclan.com"

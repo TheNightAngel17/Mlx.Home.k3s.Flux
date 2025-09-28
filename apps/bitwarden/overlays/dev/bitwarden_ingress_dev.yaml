@@ -1,0 +1,28 @@
+# Patch: dev-specific hostnames
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: bitwarden-self-host-ingress
+  namespace: bitwarden
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`dev-bitwarden.thelemonsclan.com`) && PathPrefix(`/`)
+    - kind: Rule
+      match: Host(`dev-bitwarden.thelemonsclan.com`) && PathPrefix(`/api/`)
+    - kind: Rule
+      match: Host(`dev-bitwarden.thelemonsclan.com`) && PathPrefix(`/attachments/`)
+    - kind: Rule
+      match: Host(`dev-bitwarden.thelemonsclan.com`) && PathPrefix(`/icons/`)
+    - kind: Rule
+      match: Host(`dev-bitwarden.thelemonsclan.com`) && PathPrefix(`/notifications/`)
+    - kind: Rule
+      match: Host(`dev-bitwarden.thelemonsclan.com`) && PathPrefix(`/events/`)
+    - kind: Rule
+      match: Host(`dev-bitwarden.thelemonsclan.com`) && PathPrefix(`/sso/`)
+    - kind: Rule
+      match: Host(`dev-bitwarden.thelemonsclan.com`) && PathPrefix(`/identity/`)
+    - kind: Rule
+      match: Host(`dev-bitwarden.thelemonsclan.com`) && PathPrefix(`/admin`)
+  tls:
+    certResolver: letsencrypt
