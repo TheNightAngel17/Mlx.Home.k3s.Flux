@@ -4,11 +4,9 @@ metadata:
   name: pihole-ingress
   namespace: pihole
 spec:
-  entryPoints:
-    - websecure
   routes:
     - kind: Rule
-      match: Host(`dev-pihole.thelemonsclan.com`) 
+      match: Host(`dev-pihole.thelemonsclan.com`)
       services:
         - kind: Service
           name: pihole-web
