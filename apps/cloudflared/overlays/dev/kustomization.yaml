@@ -2,6 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../base
-patches:
-  - path: cloudflared_configmap_dev.yaml
-  - path: cloudflared_sealedsecret_dev.yaml
+patchesStrategicMerge:
+  - cloudflared_configmap_dev.yaml
+  - cloudflared_sealedsecret_dev.yaml

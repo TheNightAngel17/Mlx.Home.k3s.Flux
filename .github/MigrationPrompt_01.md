@@ -99,6 +99,28 @@ Havave a folder strucutre that looks like:
 - pihole
 - traefik
 
+## Environment Overlay Rules (Critical)
+1. base = canonical PROD state. It already equals mlx-home-prd. Do NOT create patches for prod that merely restate base.
+2. overlays/prd:
+   - Must contain ONLY: kustomization.yaml pointing to ../../base
+   - NO patchesStrategicMerge entries unless (rare) a future prod-only drift is intentionally introduced (document the reason inline).
+3. overlays/dev:
+   - Only environment that gets patches now.
+   - Every patch file name must end with _dev.yaml.
+4. If no diffs between dev and base: do NOT create a dev patch file for that resource.
+5. NEVER create SealedSecret or IngressRoute patches in prd (base already authoritative).
+
+Add this guard mentally before creating any patch:
+IF target env == prod THEN abort patch creation.
+
+## Patch Creation Flow (Dev Only)
+For each resource in apps/{app}/base:
+1. Diff against clusters/mlx-home-dev/{app or instance}/
+2. If identical: skip.
+3. If different: create apps/{app}/overlays/dev/{app}_{resource-kind}_dev.yaml
+4. Add file under patchesStrategicMerge in overlays/dev/kustomization.yaml
+5. Do not touch overlays/prd.
+
 ## App Migration Strategy
 Each app has the PROD version coppied into `.\apps\{applicaiton}\base` already.
 
@@ -139,3 +161,12 @@ The patch file should update all of the `spec.encryptedData` fields only.
 This is because different clusters will have different keys and encryption
 
 
+### Quick Checklist (Run Before Committing Dev Overlay)
+- [ ] No new files under overlays/prd other than kustomization.yaml
+- [ ] All patch filenames end with _dev.yaml
+- [ ] No prod (prd) patches created
+- [ ] Each IngressRoute has a dev patch (even if only hostname/route changes)
+- [ ] SealedSecret dev patch only changes spec.encryptedData
+- [ ] HelmRelease patch only when values differ
+- [ ] No pvc size changes
+- [ ] spec.entryPoints omitted in IngressRoute patches
