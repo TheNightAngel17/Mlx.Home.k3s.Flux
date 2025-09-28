@@ -8,7 +8,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`ddb-proxy.sakagegaming.com`)
+      match: Host(`ddb-proxy.sakagegaming.com`) 
       services:
         - kind: Service
           name: ddb-proxy

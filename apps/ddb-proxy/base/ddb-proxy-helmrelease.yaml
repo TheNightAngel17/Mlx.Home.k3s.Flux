@@ -11,7 +11,7 @@ spec:
       reconcileStrategy: Revision
       sourceRef:
         kind: HelmRepository
-        name: mlx-charts
+        name: ddb-proxy
         namespace: flux-system
       version: 0.1.x
   interval: 1m0s
