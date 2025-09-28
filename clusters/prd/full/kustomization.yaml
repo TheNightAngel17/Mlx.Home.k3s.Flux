@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../namespaces.yaml
+  # add application overlays below (instances first if any)
+  - ../../apps/longhorn/overlays/prd
+  - ../../apps/bitwarden/overlays/prd
+  - ../../apps/cert-manager/overlays/prd
+  - ../../apps/cloudflared/overlays/prd
+  - ../../apps/home-assistant/overlays/prd
+  - ../../apps/jellyfin/overlays/prd
+  - ../../apps/pihole/overlays/prd
+  - ../../apps/traefik/overlays/prd
+  - ../../apps/foundry-vtt/overlays/kf/prd
+  - ../../apps/foundry-vtt/overlays/mll/prd
+  - ../../apps/foundry-vtt/overlays/tjk/prd
+  - ../../apps/foundry-vtt/overlays/tw/prd
+  - ../../apps/ddb-proxy/overlays/prd
+  - ../../apps/mlx-portfolio/overlays/prd
+  - ../../apps/nvidia/overlays/prd
