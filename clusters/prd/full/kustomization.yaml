@@ -10,3 +10,4 @@ resources:
   - ../../apps/jellyfin/overlays/prd
   - ../../apps/longhorn/overlays/prd
   - ../../apps/nvidia/overlays/prd
+  - ../../apps/pihole/overlays/prd
