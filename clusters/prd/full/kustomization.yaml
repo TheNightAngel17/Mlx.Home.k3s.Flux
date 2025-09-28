@@ -11,3 +11,4 @@ resources:
   - ../../apps/longhorn/overlays/prd
   - ../../apps/nvidia/overlays/prd
   - ../../apps/pihole/overlays/prd
+  - ../../apps/traefik/overlays/prd

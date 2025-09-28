@@ -11,3 +11,4 @@ resources:
   - ../../apps/longhorn/overlays/dev
   - ../../apps/nvidia/overlays/dev
   - ../../apps/pihole/overlays/dev
+  - ../../apps/traefik/overlays/dev
