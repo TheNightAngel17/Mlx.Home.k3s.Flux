@@ -6,3 +6,4 @@ resources:
   - ../../apps/cert-manager/overlays/dev
   - ../../apps/cloudflared/overlays/dev
   - ../../apps/home-assistant/overlays/dev
+  - ../../apps/jellyfin/overlays/dev

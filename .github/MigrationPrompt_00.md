@@ -177,13 +177,12 @@ For each applicaiton
    - would be best to literally copy the files ver-batem in this step, renaming them as you copy them
    - DO NOT ADD OR REMOVE ANY LINES, INCLUDING COMMENTS AND FORMATTING - THIS IS A STRICT COPY.
 3. foreach file in mlx-home-dev cluster for that application, reconcile the resource against the resource in `base/`
+   - Files that should have patches for sure
+      - Sealed Secrets files
+      - ingress files
    - If there are differences:
-      - Add a patch file in the `prd/` overlay destination folder with the prd values
-      - update the `prd/` kustomization to add the prd patch file
       - Add a patch file in the `dev/` overlay destination folder with the dev values
       - update the `dev/` kustomization to add the dev patch file
-      - update the file in `base/` to have "generic values" if appropriate
-   - If there are no differences, contiue to next file
    - update `/clusters/dev/full/kustomization.yaml` to reference the dev overlay
    - update `/clusters/prd/full/kustomization.yaml` to reference the prd overlay
 

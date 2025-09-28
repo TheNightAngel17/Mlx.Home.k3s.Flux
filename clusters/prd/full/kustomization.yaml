@@ -5,4 +5,5 @@ resources:
   - ../../apps/bitwarden/overlays/prd
   - ../../apps/cert-manager/overlays/prd
   - ../../apps/cloudflared/overlays/prd
-  - ../../apps/home-assistant/overlays/prd
+#  - ../../apps/home-assistant/overlays/prd   # not deployed yet
+  - ../../apps/jellyfin/overlays/prd

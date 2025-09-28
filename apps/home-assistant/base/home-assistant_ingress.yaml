@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: home-assistant-ingress
+  namespace: home-assistant
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`dev-ha.thelemonsclan.com`)
+      services:
+        - kind: Service
+          name: home-assistant
+          passHostHeader: true
+          port: 8080
+    - kind: Rule
+      match: Host(`dev-ha-code.thelemonsclan.com`)
+      services:
+        - kind: Service
+          name: home-assistant-codeserver
+          passHostHeader: true
+          port: 12321
+  tls:
+    certResolver: letsencrypt
