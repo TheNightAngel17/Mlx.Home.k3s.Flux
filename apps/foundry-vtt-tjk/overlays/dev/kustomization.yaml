@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+patchesStrategicMerge:
+  - foundry-vtt-tjk_ingressroute_dev.yaml
+  - foundry-vtt-tjk_sealedsecret_dev.yaml

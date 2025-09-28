@@ -1,0 +1,16 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ddb-proxy-ingress
+  namespace: ddb-proxy
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`ddb-proxy.sakagegaming.com`) 
+      services:
+        - kind: Service
+          name: ddb-proxy
+          passHostHeader: true
+          port: 3000

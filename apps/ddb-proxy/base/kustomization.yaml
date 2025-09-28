@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: ddb-proxy-kustomization
+  namespace: flux-system
+resources:
+  - ddb-proxy_helm-repository.yaml
+  - ddb-proxy_helmrelease.yaml
+  - ddb-proxy_ingress.yaml

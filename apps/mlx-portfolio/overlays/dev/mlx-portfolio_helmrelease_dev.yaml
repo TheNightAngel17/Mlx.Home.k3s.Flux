@@ -1,0 +1,9 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mlx-portfolio
+  namespace: flux-system
+spec:
+  values:
+    image:
+      tag: "v0.0.5"
