@@ -1,4 +1,3 @@
-# Patch: dev-specific domain only
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -7,4 +6,4 @@ metadata:
 spec:
   values:
     general:
-      domain: "dev-bitwarden.thelemonsclan.com"
+      domain: dev-bitwarden.thelemonsclan.com
