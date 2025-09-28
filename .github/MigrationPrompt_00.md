@@ -65,6 +65,7 @@ _**DO NOT TOUCH ANY FILES IN **_ `/clusters/mlx-homne-dev` _**OR**_ `/clusters/m
 - A new `/apps/` folder should be created where appls can be defined
 - Each applicaiton type should have a subfolder under `/apps/`, like `/apps/bitwarden/` and `/apps/foundry-vtt/`
 - each application should include a `base/` folder for common definitions that are the same for all environments
+   - `base/` should be the current "prd" version
 - each applicaiton should include a `overlays/{env}/` folder for each environment, defining patches or environment specific resources
 
 ## Cluster Definitions
@@ -99,9 +100,7 @@ Havave a folder strucutre that looks like:
 |   |       |   ├── applicaiton1_some-patch_dev.yaml
 |   |       |   └── applicaiton1_sealedsecret_dev.yaml
 |   |       └── prd/
-|   |           ├── kustomization.yaml
-|   |           ├── applicaiton1_some-patch_prd.yaml
-|   |           └── applicaiton1_sealedsecret_prd.yaml
+|   |           └── kustomization.yaml
 |   ├── application2/
 |   |   ├── base/
 |   |   |   ├── kustomization.yaml
@@ -114,9 +113,7 @@ Havave a folder strucutre that looks like:
 |   |       |   ├── applicaiton2_some-patch_dev.yaml
 |   |       |   └── applicaiton2_sealedsecret_dev.yaml
 |   |       └── prd/
-|   |           ├── kustomization.yaml
-|   |           ├── applicaiton2_some-patch_prd.yaml
-|   |           └── applicaiton2_sealedsecret_prd.yaml
+|   |           └── kustomization.yaml
 |   └── application3/
 |       ├── base/
 |       |   ├── kustomization.yaml
@@ -130,18 +127,14 @@ Havave a folder strucutre that looks like:
 |           |   |   ├── applicaiton3_instance1_some-patch_dev.yaml
 |           |   |   └── applicaiton3_instance1_sealedsecret_dev.yaml
 |           |   └── prd/
-|           |       ├── kustomization.yaml
-|           |       ├── applicaiton3_instance1_some-patch_prd.yaml
-|           |       └── applicaiton3_instance1_sealedsecret_prd.yaml
+|           |       └── kustomization.yaml
 |           └── instance1/
 |               ├── dev/
 |               |   ├── kustomization.yaml
 |               |   ├── applicaiton3_instance2_some-patch_dev.yaml
 |               |   └── applicaiton3_instance2_sealedsecret_dev.yaml
 |               └── prd/
-|                   ├── kustomization.yaml
-|                   ├── applicaiton3_instance2_some-patch_prd.yaml
-|                   └── applicaiton3_instance2_sealedsecret_prd.yaml
+|                   └── kustomization.yaml
 └── clusters/
     ├── dev/
     |   ├── flux-system/ #flux bootstrap puts manifests here
@@ -162,7 +155,7 @@ Havave a folder strucutre that looks like:
 - bitwarden
 - cert-manager
 - cloudflared
-- home-assistant
+- home-assistant (currently dev only)
 - jellyfin
 - longhorn
 - foundry-vtt
@@ -180,6 +173,9 @@ Havave a folder strucutre that looks like:
 For each applicaiton
 1. Create all necesary folder for the app, and add generic `kustomization.yaml` files for each overlay
 2. copy the current mlx-home-prod cluster for that application into `base/`
+   - Do not change any values or try and truncate values
+   - would be best to literally copy the files ver-batem in this step, renaming them as you copy them
+   - DO NOT ADD OR REMOVE ANY LINES, INCLUDING COMMENTS AND FORMATTING - THIS IS A STRICT COPY.
 3. foreach file in mlx-home-dev cluster for that application, reconcile the resource against the resource in `base/`
    - If there are differences:
       - Add a patch file in the `prd/` overlay destination folder with the prd values
