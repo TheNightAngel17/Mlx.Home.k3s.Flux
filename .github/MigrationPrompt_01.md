@@ -148,7 +148,7 @@ IngressRoute patch requirements (strategic merge):
 IngressRoute patch checklist (tick mentally before committing):
 - [ ] apiVersion/kind
 - [ ] metadata.name / namespace
-- [ ] spec.tls present? If yes in base, included verbatim (or intentionally updated)
+- [ ] spec.tls present? If yes in base, included verbatim (or intentionally updated)q
 - [ ] spec.routes full list (all routes, not partial)
 - [ ] spec.entryPoints intentionally omitted
 - [ ] Any other differing spec keys included
