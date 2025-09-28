@@ -2,6 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../base
-patches:
-  - path: longhorn_helmrelease_dev.yaml
-  - path: longhorn_sealedsecret_dev.yaml
+patchesStrategicMerge:
+  - longhorn_helmrelease_dev.yaml
+  - longhorn_sealedsecret_dev.yaml
