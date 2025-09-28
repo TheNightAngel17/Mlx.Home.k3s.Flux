@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ../../apps/bitwarden/overlays/prd
   - ../../apps/cert-manager/overlays/prd
+  - ../../apps/cloudflared/overlays/prd

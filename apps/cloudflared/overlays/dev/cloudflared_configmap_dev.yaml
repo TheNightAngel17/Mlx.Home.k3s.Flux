@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflared
+  namespace: cloudflared-tunnel
+data:
+  config.yaml: |
+    tunnel: mlx-home-k3s-dev
+    credentials-file: /etc/cloudflared/creds/credentials.json
+    metrics: 0.0.0.0:2000
+    no-autoupdate: true
+    ingress:
+    - hostname: dev-bitwarden.thelemonsclan.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
+    - hostname: dev-kube.thelemonsclan.com
+      service: https://10.17.17.10:6443
+      originRequest:
+        noTLSVerify: true
+    - hostname: dev-night.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
+    - hostname: dev-kaiga.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
+    - hostname: dev-blint.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
+    - hostname: dev-gyre.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
+    - hostname: dev-ddb-proxy.sakagegaming.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
+    - hostname: dev.mitchell-lemons.info
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
+    - service: http_status:404

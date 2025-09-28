@@ -1,0 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - cloudflared_configmap.yaml
+  - cloudflared_deployment.yaml
+  - cloudflared_sealedsecret.yaml
