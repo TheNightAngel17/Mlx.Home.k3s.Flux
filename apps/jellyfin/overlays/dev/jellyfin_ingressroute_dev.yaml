@@ -4,8 +4,6 @@ metadata:
   name: jellyfin-ingress
   namespace: jellyfin
 spec:
-  entryPoints:
-    - websecure
   routes:
     - kind: Rule
       match: Host(`dev-jellyfin.thelemonsclan.com`)
