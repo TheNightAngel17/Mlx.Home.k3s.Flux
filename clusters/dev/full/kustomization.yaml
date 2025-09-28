@@ -9,3 +9,4 @@ resources:
   - ../../apps/home-assistant/overlays/dev
   - ../../apps/jellyfin/overlays/dev
   - ../../apps/longhorn/overlays/dev
+  - ../../apps/nvidia/overlays/dev
