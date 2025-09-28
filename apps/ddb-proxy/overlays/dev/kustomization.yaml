@@ -2,5 +2,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../base
-patches:
-  - path: ddb-proxy_ingress_dev.yaml
+patchesStrategicMerge:
+  - ddb-proxy_ingressroute_dev.yaml
