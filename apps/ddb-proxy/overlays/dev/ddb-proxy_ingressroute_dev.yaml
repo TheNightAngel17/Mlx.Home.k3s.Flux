@@ -12,5 +12,5 @@ spec:
           name: ddb-proxy
           passHostHeader: true
           port: 3000
-  tls:
-    certResolver: letsencrypt
+  # tls:
+  #   certResolver: letsencrypt

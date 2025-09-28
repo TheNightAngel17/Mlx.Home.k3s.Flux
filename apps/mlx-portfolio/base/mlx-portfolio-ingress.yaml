@@ -14,5 +14,5 @@ spec:
           name: mlx-portfolio
           passHostHeader: true
           port: 80
-  tls:
-    certResolver: letsencrypt
+  # tls:
+  #   certResolver: letsencrypt

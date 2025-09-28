@@ -12,5 +12,5 @@ spec:
           name: foundry-vtt-mll
           passHostHeader: true
           port: 80
-  tls:
-    certResolver: letsencrypt
+  # tls:
+  #   certResolver: letsencrypt

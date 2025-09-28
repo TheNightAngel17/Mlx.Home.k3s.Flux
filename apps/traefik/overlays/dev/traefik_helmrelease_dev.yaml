@@ -8,22 +8,22 @@ spec:
     spec:
       version: 34.5.x
   values:
-    certificatesResolvers:
-      letsencrypt:
-        acme:
-          email: "lemonsml@outlook.com"
-          storage: /data/acme.json
-          # caServer: https://acme-v02.api.letsencrypt.org/directory # Production server
-          caServer: https://acme-staging-v02.api.letsencrypt.org/directory # Staging server
-          dnsChallenge:
-            provider: cloudflare
-            delayBeforeCheck: 0
-    env:
-      - name: CF_DNS_API_TOKEN
-        valueFrom:
-          secretKeyRef:
-            name: cloudflare-api-token-secret
-            key: api-token
+    # certificatesResolvers:
+    #   letsencrypt:
+    #     acme:
+    #       email: "lemonsml@outlook.com"
+    #       storage: /data/acme.json
+    #       # caServer: https://acme-v02.api.letsencrypt.org/directory # Production server
+    #       caServer: https://acme-staging-v02.api.letsencrypt.org/directory # Staging server
+    #       dnsChallenge:
+    #         provider: cloudflare
+    #         delayBeforeCheck: 0
+    # env:
+    #   - name: CF_DNS_API_TOKEN
+    #     valueFrom:
+    #       secretKeyRef:
+    #         name: cloudflare-api-token-secret
+    #         key: api-token
     ports:
       traefik:
         expose:

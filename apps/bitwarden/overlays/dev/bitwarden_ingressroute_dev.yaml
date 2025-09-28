@@ -70,5 +70,5 @@ spec:
         - kind: Service
           name: bitwarden-self-host-admin
           port: 5000
-  tls:
-    certResolver: letsencrypt
+  # tls:
+  #   certResolver: letsencrypt

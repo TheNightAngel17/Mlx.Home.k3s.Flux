@@ -19,5 +19,5 @@ spec:
           name: home-assistant-codeserver
           passHostHeader: true
           port: 12321
-  tls:
-    certResolver: letsencrypt
+  # tls:
+  #   certResolver: letsencrypt
