@@ -2,6 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../base
-patches:
-  - path: traefik_helmrelease_dev.yaml
-  - path: traefik_sealedsecret_dev.yaml
+patchesStrategicMerge:
+  - traefik_helmrelease_dev.yaml
+  - traefik_sealedsecret_dev.yaml
