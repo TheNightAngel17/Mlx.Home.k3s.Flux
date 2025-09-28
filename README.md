@@ -1,102 +1,146 @@
 # Mlx.Home.k3s.Flux
 
-MLX-Home Services are defined here in this Repo, along with all configurations and deployables for kubernetes. The rest of this README assumes we have a fresh-install of kubernetes (currently k3s), and we need to get our services up and running
+MLX-Home services are defined here, along with all Kubernetes GitOps configuration managed by Flux.
 
-# 1. Install Sealed-Secrets
+## Repository Structure (Post-Migration)
+```
+apps/
+  <app>/
+    base/                 # Canonical PROD state (exact copy of former mlx-home-prd definitions)
+    overlays/
+      dev/                # Dev-specific patches (only where drift exists)
+      prd/                # Points back to base only (no patches unless intentional future prod drift)
+clusters/
+  dev/
+    namespaces.yaml       # All namespaces (includes dev-only apps like home-assistant)
+    init/kustomization.yaml
+    full/kustomization.yaml
+    flux-system/          # Created/managed by flux bootstrap
+  prd/
+    namespaces.yaml       # All prod namespaces
+    init/kustomization.yaml
+    full/kustomization.yaml
+    flux-system/
+```
 
-Now, as there are a few services that require secrets, it got weird trying to have to manage what services needed secrets installed first or not. Then came along Sealed-Secrets.
+### Patching Rules
+- Base = PROD truth. Never edit base directly for environment drift.
+- Dev overlays use `patchesStrategicMerge` only for actual differences.
+- No PROD patches unless a deliberate prod-only change is required later.
+- IngressRoute: every IngressRoute gets a dev patch (host change at minimum) with:
+  - Full `spec.routes` reproduced
+  - `spec.entryPoints` removed in patch
+  - `spec.tls` included if tls present (or intentionally added) in dev
+- SealedSecret: dev patch ONLY contains differing `spec.encryptedData` keys.
+- HelmRelease: dev patch only when values differ (image tag, sourceRef, domains, backupTarget, resources, etc.). Remove unchanged keys from patches.
+- Naming: `<app>_<resource-kind>_dev.yaml` (underscores between tokens; internal hyphens preserved).
+- Never create prod patches during normal sync operations.
 
-## Overview of Sealed-Secrets
+### Namespaces
+All namespaces are now centralized per environment in `clusters/<env>/namespaces.yaml` and applied by both `init` and `full` kustomizations.
 
-Long story short, you can take your plain-text yaml secrets, which can be easily decoded and viewed, run them throiug a `kubeseal` command, and have it spit out a similar file, but with the values for the secret sealed by encryption. This new object is of type `SealedSecret` instead of `Secret`, and when you apply it, kubernetes will see it, decode it, and apply it as a `Secret`.
+## 1. Install Sealed-Secrets
 
-## Setup Sealed-Secrets
-In order for that to happen, we need to first initially set up the kubernetes cluster to:
-
-1. Have the decoding service installed
-2. Have it use the correct certificate(s) to decode the `SealedSecret`
-
-To set up the decoding service, go to the [sealed-secrets releases page](https://github.com/bitnami-labs/sealed-secrets/releases), and look for the latest `sealed-secrets-v0.x.x`. On this release, there should be a copy-able link for `Cluster-side`. Copy it, and run it (a kubectl command)
-
+To install controller:
 ```bash
 kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.x.x/controller.yaml
 ```
-
-Once that is completed, apply the tls secret file. This file is located in a secured server (not in this reposiotry). You know where it is. If you don't, welp... have fun generating new secrets and such!!!
-
+Apply the sealed-secrets root TLS key (private location, not in repo):
 ```bash
-kubectl apply -f <file-name.yaml>
+kubectl apply -f <sealed-secrets-key.yaml>
 ```
+Then delete the auto-generated secret and restart the controller pod so it picks up the provided key.
 
-Once this has been applied, delete the other randomly-generated secret (`kubectl delete secret ...`), and restart the sealed-secrets-controller (`kubectl delete pod ...` ... this will restart the pod)
+## 2. Prepare Flux
+We use Flux CD for reconciliation.
 
+### Install Flux CLI
+Follow: https://fluxcd.io/flux/installation/
 
-# 2. Prepare Flux
-
-To handle the deployment of services, we utilize [Flux CD](https://fluxcd.io/), which is a way to declare services and configurations inside of code repositories, and when changes are made to the repository, corresponding changes happen in Kubernetes. The way one would do that is by bootstrapping the repository to the Flux Service, but using a `flux bootstrap` command. There are many different types of bootstrapping, which can be found on the [Flux Docs](https://fluxcd.io/flux/cmd/flux_bootstrap/), but we will be utilizing the generic GIT bootstrap, as to not tie us to a singlular service.
-
-## Install Flux
-
-In order to bootstrap with Flux, you will need to first have Flux installed. Follow the documentation in the [Flux Docs](https://fluxcd.io/flux/installation/) on how to install on whatever machine you are using.
-
-## Create SSH Key
-
-If, on the machine that you will be running Flux from, you don't have an SSH key set up to be able to connect to your git repository from, we will need to set one up. Currently, as we utilize GitHub, follow the instructions from [GitHub's Docs](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) on how to create & add a key to your account.
-
+### SSH Key (if needed)
 ```bash
 ssh-keygen -t ed25519 -C "29760146+TheNightAngel17@users.noreply.github.com" -f /home/lemonsml/.ssh/gh_flux_key -P ""
 ```
+Add the public key to the Git host (GitHub) for repo access.
 
-# 3. Data Reovory
+## 3. Data Recovery (Longhorn)
+Longhorn provides the storage layer; use it to restore volumes before deploying full workloads.
 
-As longhorn is our preferred storage class, we can use it to restore any backed-up data from our backup location. A part of the configuration of longhorn within this repository is to backup to an s3 site.
+### Bootstrap Init Branch (Longhorn + Namespaces Only)
+The `init` branch is still used for a minimal bring-up (namespaces + Longhorn) so volumes can be restored safely before app workloads start.
 
-## Bootsrap Init Branch
-
-First, we will need to bootstrap the `init` branch, which contains only longhorn configurations
-
+Dev:
 ```bash
-flux bootstrap git --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux --branch=init --path=clusters/mlx-home-dev --private-key-file=/home/lemonsml/.ssh/gh_flux_key
+flux bootstrap git \
+  --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux \
+  --branch=main \
+  --path=clusters/dev/init \
+  --private-key-file=/home/lemonsml/.ssh/gh_flux_key
+```
+Prod:
+```bash
+flux bootstrap git \
+  --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux \
+  --branch=main \
+  --path=clusters/prd/init \
+  --private-key-file=/home/lemonsml/.ssh/gh_flux_key
 ```
 
-```bash
-flux bootstrap git --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux --branch=init --path=clusters/mlx-home-prd --private-key-file=/home/lemonsml/.ssh/gh_flux_key
-```
-
-## Access UI
-
-To restore backed-up volumes, you first need to access the UI. To do this, we will port-forward locally:
-
+### Access Longhorn UI
 ```bash
 kubectl port-forward service/longhorn-frontend 8675:80 -n longhorn-system
 ```
+Open http://localhost:8675/#/dashboard and perform volume restoration:
+1. Backup tab: create Disaster Recovery Volumes
+2. Wait for volumes to become Healthy (with warning)
+3. Activate Disaster Recovery Volumes (block device)
+4. Create PV/PVC (Use Previous PVC = checked)
 
-Then we will access http://localhost:8675/#/dashboard, which will land us at the dashboard. From the dashboard, restore all backup volumes
+## 4. Bootstrap Full Repository
+After volumes restored, bootstrap (or switch to) the `main` branch which reconciles all applications via `clusters/<env>/full`.
 
-## Restore Volumes
-
-1. Navigate to the Backup tab, select all backups, and then click the `Create Disaster Recovery Volume` button at the top.
-1. Navigate to Volume tab and wait for all volumes to read `Healthy` with a warning error.
-1. Select all volumes, click the more options next to the top button, and select `Activate Disaster Recovory Volume`, using block device.
-1. Once all volumes are activated, select all volumes, click the more options next to the top buttons, and select `Create PV/PVC
-   >***NOTE***: Make sure to check the `Use Previous PVC` checkbox in the dialog box.
-
-Once all of these have finished creating the PV/PVC, you can move ahead and bootstrap the full-service
-
-# 4. Bootstrap the Full Repository
-
-Next, we are ready to bootstrap the repository. It's as simple as running the `flux bootstrap` command.
-
+Dev:
 ```bash
-flux bootstrap git --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux --branch=main --path=clusters/mlx-home-dev --private-key-file=/home/lemonsml/.ssh/gh_flux_key
+flux bootstrap git \
+  --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux \
+  --branch=main \
+  --path=clusters/dev/full \
+  --private-key-file=/home/lemonsml/.ssh/gh_flux_key
+```
+Prod:
+```bash
+flux bootstrap git \
+  --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux \
+  --branch=main \
+  --path=clusters/prd/full \
+  --private-key-file=/home/lemonsml/.ssh/gh_flux_key
 ```
 
-```bash
-flux bootstrap git --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux --branch=main --path=clusters/mlx-home-prd --private-key-file=/home/lemonsml/.ssh/gh_flux_key
-```
-
-after this has been boot-strapped, wait until all pods are ready
-
+Check readiness:
 ```bash
 kubectl get pods --all-namespaces -o wide
 ```
+
+## 5. Adding / Updating an Application
+1. Copy PROD (base) manifest(s) into `apps/<app>/base` (must reflect canonical prod state).
+2. Create/adjust dev patches only where drift is required.
+3. Ensure dev `kustomization.yaml` uses `patchesStrategicMerge` and lists only necessary patches.
+4. Add overlay path to `clusters/<env>/full/kustomization.yaml` (both dev & prod for new apps—prod just references base).
+5. For any IngressRoute, always add matching dev patch.
+
+## 6. Sealed Secrets Workflow
+- Generate plaintext Secret locally
+- Seal with the cluster-specific public key (`kubeseal --controller-namespace sealed-secrets ...`)
+- Replace only the `spec.encryptedData` map in the corresponding dev patch file
+- Never add unrelated keys to the patch
+
+## 7. Conventions Summary
+- File name tokens separated by `_`, internal hyphens preserved.
+- Dev-only apps (e.g., home-assistant) still list their namespace only in dev `namespaces.yaml`.
+- Avoid accidental PROD drift by reviewing patches: prod overlays should normally contain only a `kustomization.yaml` pointing to `../../base`.
+
+## 8. Future Changes
+If intentional prod drift is required, introduce a prod patch (exception case) and document rationale in the PR.
+
+---
+Questions or improvements: open an issue.
