@@ -13,3 +13,4 @@ resources:
   - ../../apps/pihole/overlays/prd
   - ../../apps/mlx-portfolio/overlays/prd
   - ../../apps/traefik/overlays/prd
+  - ../../apps/ddb-proxy/overlays/prd
