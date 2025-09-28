@@ -13,3 +13,4 @@ resources:
   - ../../apps/pihole/overlays/dev
   - ../../apps/traefik/overlays/dev
   - ../../apps/mlx-portfolio/overlays/dev
+  - ../../apps/ddb-proxy/overlays/dev

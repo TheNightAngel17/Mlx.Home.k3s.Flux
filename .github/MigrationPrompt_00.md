@@ -183,6 +183,7 @@ For each applicaiton
    - If there are differences:
       - Add a patch file in the `dev/` overlay destination folder with the dev values
       - update the `dev/` kustomization to add the dev patch file
+      - specifically with ingress files, ensure that routs list are done by defining the full array with the full specs for  it
    - update `/clusters/dev/full/kustomization.yaml` to reference the dev overlay
    - update `/clusters/prd/full/kustomization.yaml` to reference the prd overlay
 
