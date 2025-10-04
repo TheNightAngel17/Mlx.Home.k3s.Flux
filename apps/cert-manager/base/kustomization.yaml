@@ -4,5 +4,5 @@ metadata:
   name: cert-manager-kustomization
   namespace: flux-system
 resources:
-- certmanager-helmsource.yaml
-- certmanager-helmrelease.yaml
+- cert-manager_HelmRepository.yaml
+- cert-manager_HelmRelease.yaml

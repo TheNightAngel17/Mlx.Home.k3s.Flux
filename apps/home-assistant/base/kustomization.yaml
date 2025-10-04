@@ -5,8 +5,8 @@ metadata:
   name: home-assistant-kustomization
   namespace: flux-system
 resources:
-- home-assistant-pvc.yaml
-- home-assistant-ingress.yaml
-- home-assistant-helmsource.yaml
-- home-assistant-helmrelease.yaml
+- home-assistant_PVC.yaml
+- home-assistant_IngressRoute.yaml
+- home-assistant_HelmRepository.yaml
+- home-assistant_HelmRelease.yaml
 

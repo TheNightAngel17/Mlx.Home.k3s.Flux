@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "rename.ps1 • Dry Run",
+      "type": "PowerShell",
+      "request": "launch",
+      "script": "${workspaceFolder}/rename.ps1",
+      "cwd": "${workspaceFolder}",
+      "args": ["-Verbose", "-DryRun"],
+      "createTemporaryIntegratedConsole": true
+    },
+    {
+      "name": "rename.ps1 • Apply Renames",
+      "type": "PowerShell",
+      "request": "launch",
+      "script": "${workspaceFolder}/rename.ps1",
+      "cwd": "${workspaceFolder}",
+      "args": ["-Verbose"],
+      "createTemporaryIntegratedConsole": true
+    }
+  ]
+}

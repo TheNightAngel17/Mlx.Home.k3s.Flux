@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - ../../base
 patchesStrategicMerge:
-  - cloudflared_configmap_dev.yaml
-  - cloudflared_sealedsecret_dev.yaml
+  - cloudflared_ConfigMap.yaml
+  - cloudflared_SealedSecret.yaml

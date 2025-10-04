@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - ../../base
 patchesStrategicMerge:
-  - ddb-proxy_ingressroute_dev.yaml
+  - ddb-proxy_IngressRoute.yaml

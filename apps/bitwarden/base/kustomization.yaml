@@ -4,8 +4,8 @@ metadata:
   name: bitwarden-kustomization
   namespace: flux-system
 resources:
-- bitwarden-sealedsecret.yaml
-- bitwarden-pvcs.yaml
-- bitwarden-helmsource.yaml
-- bitwarden-helmrelease.yaml
-- bitwarden-ingress.yaml
+- bitwarden_SealedSecret.yaml
+- bitwarden_PVC.yaml
+- bitwarden_HelmRepository.yaml
+- bitwarden_HelmRelease.yaml
+- bitwarden_Middleware_IngressRoute.yaml

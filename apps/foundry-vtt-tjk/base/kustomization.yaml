@@ -4,8 +4,8 @@ metadata:
   name: foundry-vtt-tjk-kustomization
   namespace: flux-system
 resources:
-- foundry-vtt-tjk-helmsource.yaml
-- foundry-vtt-tjk-sealedsecret.yaml
-- foundry-vtt-tjk-pvc.yaml
-- foundry-vtt-tjk-ingress.yaml
-- foundry-vtt-tjk-helmrelease.yaml
+- foundry-vtt-tjk_HelmRepository.yaml
+- foundry-vtt-tjk_SealedSecret.yaml
+- foundry-vtt-tjk_PVC.yaml
+- foundry-vtt-tjk_IngressRoute.yaml
+- foundry-vtt-tjk_HelmRelease.yaml

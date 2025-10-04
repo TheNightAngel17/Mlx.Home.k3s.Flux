@@ -5,6 +5,6 @@ metadata:
   name: traefik-kustomization
   namespace: flux-system
 resources:
-  - traefik-crds.yaml
-  - traefik-helmsource.yaml
-  - traefik-helmrelease.yaml
+  - traefik_GitRepository_Kustomization.yaml
+  - traefik_HelmRepository.yaml
+  - traefik_HelmRelease.yaml
