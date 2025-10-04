@@ -1,0 +1,7 @@
+*_Secret.yaml
+*_Secret.yml
+*.cert
+*.key
+*.pem
+*_SealedSecret.yaml
+*_SealedSecret.yml
