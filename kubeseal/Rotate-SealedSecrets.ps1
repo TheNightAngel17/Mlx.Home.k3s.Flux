@@ -1,3 +1,44 @@
+# <#
+# .SYNOPSIS
+#   Rotates Kubernetes SealedSecrets by generating a fresh controller keypair and resealing all app manifests.
+#
+# .DESCRIPTION
+#   This script automates the end-to-end rotation of SealedSecrets for the MLX home clusters. It validates the
+#   required tooling (`openssl`, `kubeseal`, and PowerShell 7+ YAML cmdlets), stages base and overlay manifests,
+#   unseals them with the existing controller private key, reseals them with a newly generated certificate, and
+#   writes the updated encrypted payloads back to the appropriate app overlays or base files. A companion TLS
+#   Secret manifest is emitted for manual application to the cluster. Temporary working directories (00/01/02) are
+#   recreated on each execution to keep artifacts isolated and repeatable.
+#
+# .PARAMETER Env
+#   Target environment to process. Must be either `dev` or `prd` to match the overlay layout under `apps/`.
+#
+# .PARAMETER CurrentCertPrivateKey
+#   Path to the existing SealedSecrets controller private key (PEM). Can be absolute, relative to the current
+#   directory, or relative to the environment working folder. Outputs will be written alongside this key.
+#
+# .PARAMETER NewAlgorithm
+#   RSA key size for the new controller certificate. Defaults to `RSA4096`; supports `RSA2048`, `RSA3072`,
+#   and `RSA4096`. (Ed25519 is intentionally disabled until upstream `kubeseal` gains support.)
+#
+# .PARAMETER Clean
+#   When supplied, the script simply resets the staging directories for the selected environment and exits without
+#   performing a rotation. Useful for clearing stale artifacts between runs.
+#
+# .EXAMPLE
+#   ./Rotate-SealedSecrets.ps1 -Env dev -CurrentCertPrivateKey "C:\secrets\dev-controller.key"
+#     Performs a full rotation for the dev environment using the provided key, emitting the new key, cert, and TLS
+#     manifest next to the supplied path.
+#
+# .EXAMPLE
+#   ./Rotate-SealedSecrets.ps1 -Env prd -Clean
+#     Clears the `kubeseal/prd/00_sealed`, `01_unsealed`, and `02_resealed` directories and exits.
+#
+# .NOTES
+#   The script should be executed from a machine that holds the current controller private key and has access to the
+#   repository. Review the generated TLS Secret manifest before applying it to the cluster to ensure the namespace and
+#   metadata align with your deployment practices.
+# #>
 [CmdletBinding()]
 param(
   [Parameter(Mandatory = $true)]
@@ -7,9 +48,9 @@ param(
   [Parameter(ParameterSetName = 'Rotate', Mandatory = $true)]
   [string]$CurrentCertPrivateKey,
 
-  [Parameter(ParameterSetName = 'Rotate', Mandatory = $true)]
-  [ValidateSet("RSA4096", "Ed25519")]
-  [string]$NewAlgorithm,
+  [Parameter(ParameterSetName = 'Rotate')]
+  [ValidateSet("RSA2048", "RSA3072", "RSA4096")]
+  [string]$NewAlgorithm = "RSA4096",
 
   [Parameter(ParameterSetName = 'Clean', Mandatory = $true)]
   [switch]$Clean
@@ -231,40 +272,64 @@ if ($PSCmdlet.ParameterSetName -eq 'Clean') {
   return
 }
 
-if (-not [System.IO.Path]::IsPathRooted($CurrentCertPrivateKey)) {
-  $currentKeyPath = Join-Path $envRoot $CurrentCertPrivateKey
+$resolvedPath = $null
+
+if ([System.IO.Path]::IsPathRooted($CurrentCertPrivateKey)) {
+  if (Test-Path -LiteralPath $CurrentCertPrivateKey) {
+    $resolvedPath = Resolve-Path -LiteralPath $CurrentCertPrivateKey
+  }
 } else {
-  $currentKeyPath = $CurrentCertPrivateKey
+  try {
+    $resolvedPath = Resolve-Path -Path $CurrentCertPrivateKey -ErrorAction Stop
+  } catch {
+    $resolvedPath = $null
+  }
+
+  if (-not $resolvedPath) {
+    $candidate = Join-Path $envRoot $CurrentCertPrivateKey
+    if (Test-Path -LiteralPath $candidate) {
+      $resolvedPath = Resolve-Path -LiteralPath $candidate
+    }
+  }
 }
 
-if (-not (Test-Path -LiteralPath $currentKeyPath)) {
-  throw "Current sealed secret private key not found at '$currentKeyPath'."
+if (-not $resolvedPath) {
+  throw "Current sealed secret private key not found at '$CurrentCertPrivateKey'."
 }
 
-$currentKeyPath = (Resolve-Path -LiteralPath $currentKeyPath).Path
+$currentKeyPath = $resolvedPath.Path
+$currentKeyDirectory = Split-Path -Parent $currentKeyPath
+Set-DirectoryPresent -Path $currentKeyDirectory
 
 $timestamp = Get-Date -Format 'yyyyMMddHHmmss'
 $newKeyBaseName = "{0}_{1}_{2}_SealedSecret" -f $Env, $timestamp, $NewAlgorithm
-$newKeyPath = Join-Path $envRoot ("{0}.key" -f $newKeyBaseName)
-$newCertPath = Join-Path $envRoot ("{0}.cert" -f $newKeyBaseName)
-$newTlsSecretPath = Join-Path $envRoot ("{0}.yaml" -f $newKeyBaseName)
+$newKeyPath = Join-Path $currentKeyDirectory ("{0}.key" -f $newKeyBaseName)
+$newCertPath = Join-Path $currentKeyDirectory ("{0}.cert" -f $newKeyBaseName)
+$newTlsSecretPath = Join-Path $currentKeyDirectory ("{0}.yaml" -f $newKeyBaseName)
 
+$rsaBits = $null
 switch ($NewAlgorithm) {
-  'RSA4096' {
-    Write-Verbose "Generating RSA4096 keypair."
-    Invoke-ExternalCommand -FileName 'openssl' -Arguments @(
-      'req','-x509','-nodes','-newkey','rsa:4096','-days','365',
-      '-keyout',$newKeyPath,'-out',$newCertPath,'-subj','/CN=sealed-secrets'
-    ) | Out-Null
-  }
+  'RSA2048' { $rsaBits = 2048; break }
+  'RSA3072' { $rsaBits = 3072; break }
+  'RSA4096' { $rsaBits = 4096; break }
   'Ed25519' {
+    # Keeping the Ed25519 implementation for future enablement when kubeseal supports it.
     Write-Verbose "Generating Ed25519 keypair."
     Invoke-ExternalCommand -FileName 'openssl' -Arguments @('genpkey','-algorithm','Ed25519','-out',$newKeyPath) | Out-Null
     Invoke-ExternalCommand -FileName 'openssl' -Arguments @('req','-new','-x509','-key',$newKeyPath,'-out',$newCertPath,'-days','365','-subj','/CN=sealed-secrets') | Out-Null
+    break
   }
   default {
     throw "Unsupported algorithm '$NewAlgorithm'."
   }
+}
+
+if ($rsaBits) {
+  Write-Verbose "Generating RSA$rsaBits keypair."
+  Invoke-ExternalCommand -FileName 'openssl' -Arguments @(
+    'req','-x509','-nodes','-newkey',"rsa:$rsaBits",'-days','365',
+    '-keyout',$newKeyPath,'-out',$newCertPath,'-subj','/CN=sealed-secrets'
+  ) | Out-Null
 }
 
 $newKeyPath = (Resolve-Path -LiteralPath $newKeyPath).Path
