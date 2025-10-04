@@ -12,18 +12,26 @@
 #
 # .PARAMETER Env
 #   Target environment to process. Must be either `dev` or `prd` to match the overlay layout under `apps/`.
+#   Alias: `-e`.
 #
 # .PARAMETER CurrentCertPrivateKey
 #   Path to the existing SealedSecrets controller private key (PEM). Can be absolute, relative to the current
 #   directory, or relative to the environment working folder. Outputs will be written alongside this key.
+#   Aliases: `-Key`, `-k`.
 #
 # .PARAMETER NewAlgorithm
 #   RSA key size for the new controller certificate. Defaults to `RSA4096`; supports `RSA2048`, `RSA3072`,
 #   and `RSA4096`. (Ed25519 is intentionally disabled until upstream `kubeseal` gains support.)
+#   Aliases: `-Algorithm`, `-a`.
 #
 # .PARAMETER Clean
 #   When supplied, the script simply resets the staging directories for the selected environment and exits without
 #   performing a rotation. Useful for clearing stale artifacts between runs.
+#   Alias: `-c`.
+
+# .PARAMETER Help
+#   Displays this help information and exits without making changes.
+#   Alias: `-h`.
 #
 # .EXAMPLE
 #   ./Rotate-SealedSecrets.ps1 -Env dev -CurrentCertPrivateKey "C:\secrets\dev-controller.key"
@@ -41,23 +49,43 @@
 # #>
 [CmdletBinding()]
 param(
-  [Parameter(Mandatory = $true)]
+  [Parameter(ParameterSetName = 'Rotate', Mandatory = $true)]
+  [Parameter(ParameterSetName = 'Clean', Mandatory = $true)]
   [ValidateSet("dev", "prd")]
+  [Alias('e')]
   [string]$Env,
 
   [Parameter(ParameterSetName = 'Rotate', Mandatory = $true)]
-  [string]$CurrentCertPrivateKey,
+  [Alias('k')]
+  [string]$Key,
 
   [Parameter(ParameterSetName = 'Rotate')]
   [ValidateSet("RSA2048", "RSA3072", "RSA4096")]
-  [string]$NewAlgorithm = "RSA4096",
+  [Alias('a')]
+  [string]$Algorithm = "RSA4096",
 
   [Parameter(ParameterSetName = 'Clean', Mandatory = $true)]
+  [Alias('c')]
   [switch]$Clean
+,
+
+  [Parameter(ParameterSetName = 'Help', Mandatory = $true)]
+  [Alias('h')]
+  [switch]$Help
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+
+if ($PSCmdlet.ParameterSetName -eq 'Help') {
+  try {
+    Get-Help -Name $MyInvocation.MyCommand.Path -Detailed | Out-Host
+  } catch {
+    Write-Host "Detailed help unavailable; displaying basic synopsis." -ForegroundColor Yellow
+    Get-Help -Name $MyInvocation.MyCommand.Path | Out-Host
+  }
+  return
+}
 
 function Test-CommandAvailable {
   param([string]$Name)
@@ -165,8 +193,8 @@ function Copy-Hashtable {
   param([hashtable]$Table)
   if (-not $Table) { return $null }
   $clone = [ordered]@{}
-  foreach ($key in $Table.Keys) {
-    $clone[$key] = $Table[$key]
+  foreach ($item in $Table.Keys) {
+    $clone[$item] = $Table[$item]
   }
   return $clone
 }
@@ -225,8 +253,8 @@ function Set-EncryptedDataSection {
 
   $newSection = @()
   $newSection += (' ' * $indent) + 'encryptedData:'
-  foreach ($key in $EncryptedData.Keys) {
-    $newSection += (' ' * ($indent + 2)) + "${key}: $($EncryptedData[$key])"
+  foreach ($item in $EncryptedData.Keys) {
+    $newSection += (' ' * ($indent + 2)) + "${item}: $($EncryptedData[$item])"
   }
 
   $updated = New-Object System.Collections.Generic.List[string]
@@ -278,19 +306,19 @@ if ($PSCmdlet.ParameterSetName -eq 'Clean') {
 
 $resolvedPath = $null
 
-if ([System.IO.Path]::IsPathRooted($CurrentCertPrivateKey)) {
-  if (Test-Path -LiteralPath $CurrentCertPrivateKey) {
-    $resolvedPath = Resolve-Path -LiteralPath $CurrentCertPrivateKey
+if ([System.IO.Path]::IsPathRooted($Key)) {
+  if (Test-Path -LiteralPath $Key) {
+    $resolvedPath = Resolve-Path -LiteralPath $Key
   }
 } else {
   try {
-    $resolvedPath = Resolve-Path -Path $CurrentCertPrivateKey -ErrorAction Stop
+    $resolvedPath = Resolve-Path -Path $Key -ErrorAction Stop
   } catch {
     $resolvedPath = $null
   }
 
   if (-not $resolvedPath) {
-    $candidate = Join-Path $envRoot $CurrentCertPrivateKey
+    $candidate = Join-Path $envRoot $Key
     if (Test-Path -LiteralPath $candidate) {
       $resolvedPath = Resolve-Path -LiteralPath $candidate
     }
@@ -298,7 +326,7 @@ if ([System.IO.Path]::IsPathRooted($CurrentCertPrivateKey)) {
 }
 
 if (-not $resolvedPath) {
-  throw "Current sealed secret private key not found at '$CurrentCertPrivateKey'."
+  throw "Current sealed secret private key not found at '$Key'."
 }
 
 $currentKeyPath = $resolvedPath.Path
@@ -306,13 +334,13 @@ $currentKeyDirectory = Split-Path -Parent $currentKeyPath
 Set-DirectoryPresent -Path $currentKeyDirectory
 
 $timestamp = Get-Date -Format 'yyyyMMdd_HHmmss'
-$newKeyBaseName = "{0}_{1}_{2}_Secret" -f $Env, $timestamp, $NewAlgorithm
+$newKeyBaseName = "{0}_{1}_{2}_Secret" -f $Env, $timestamp, $Algorithm
 $newKeyPath = Join-Path $currentKeyDirectory ("{0}.key" -f $newKeyBaseName)
 $newCertPath = Join-Path $currentKeyDirectory ("{0}.crt" -f $newKeyBaseName)
 $newTlsSecretPath = Join-Path $currentKeyDirectory ("{0}.yaml" -f $newKeyBaseName)
 
 $rsaBits = $null
-switch ($NewAlgorithm) {
+switch ($Algorithm) {
   'RSA2048' { $rsaBits = 2048; break }
   'RSA3072' { $rsaBits = 3072; break }
   'RSA4096' { $rsaBits = 4096; break }
@@ -324,7 +352,7 @@ switch ($NewAlgorithm) {
     break
   }
   default {
-    throw "Unsupported algorithm '$NewAlgorithm'."
+    throw "Unsupported algorithm '$Algorithm'."
   }
 }
 

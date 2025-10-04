@@ -6,14 +6,14 @@
 #
 # Usage:
 #   ./Rotate-SealedSecrets.sh --env dev \
-#       --current-key /path/to/current/controller.key \
+#       --key /path/to/current/controller.key \
 #       [--algorithm RSA4096]
 #
 #   ./Rotate-SealedSecrets.sh --env prd --clean
 #
 # Options:
 #   --env, -e           Target environment (dev|prd).
-#   --current-key, -k   Path to the existing controller private key (PEM).
+#   --key, -k   Path to the existing controller private key (PEM).
 #                       Required unless --clean is provided.
 #   --algorithm, -a     New key algorithm: RSA2048 | RSA3072 | RSA4096 (default).
 #   --clean, -c         Reset staging directories for the environment and exit.
@@ -105,7 +105,7 @@ while [[ $# -gt 0 ]]; do
       ENVIRONMENT="$2"
       shift 2
       ;;
-    -k|--current-key)
+    -k|--key)
       [[ $# -ge 2 ]] || usage
       CURRENT_KEY="$2"
       shift 2

@@ -17,23 +17,27 @@ the script will:
 # Parameters
 
 ## Main usage
-1. `env`: What environment to run for
+1. `env` / `-e`: What environment to run for
    - dev
    - prd
    - other options not available
-1. `current-cert-private-key`: the private key file for the current cert
+1. `key` / `-k`: the private key file for the current cert
    - string, free-text
    - should be able to pass in a path to a key, for example `.\dev\mlx-home-dev-sealedsecret.key`
-1. `new-algorithm`: What algorithm to use for openssl key generation
+1. `algorithm` / `-a`: What algorithm to use for openssl key generation
    - RSA4096
    - Ed25519
 
 ## Cleanup
-1. `env`: What environemnt folders to look at
+1. `env` / `-e`: What environemnt folders to look at
    - dev
    - prd
    - other options are not available
-1. `clean`
+1. `clean` / `-c`: flag to clean
+
+## Help
+1. `help` / `-h`
+   - Flag that prints the script help information and exits.
    - flag that says we should clean the working subfolders
 
 
