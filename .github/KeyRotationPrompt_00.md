@@ -58,13 +58,11 @@ the script will:
    - `{{$env}}_{{yyyyMMddhhmmss}}_{{$new-algorithm}}_SealedSecret`
 1. generate the `.cert` and the `.key` files 
    - using the correct `$new-algorithm` type
-   - files are dropped in appropriate subfolder based on `$env`
-      - e.g. new certs for dev using RSA4096 should be:
-         - `./kubeseal/dev/dev_20250928123000_RSA4096_SealedSecret.cert` for public key
-         - `./kubeseal/dev/dev_20250928123000_RSA4096_SealedSecret.key` for private key
-      - e.g. new certs for prd using RSA4096 Ed25519 be:
-         - `./kubeseal/prd/prd_20250928123000_Ed25519_SealedSecret.cert` for public key
-         - `./kubeseal/prd/prd_20250928123000_Ed25519_SealedSecret.key` for private key
+   - files are dropped in the folder that the `-CurrentCertPrivateKey` is grabgbed from 
+      - if no direct path given, default to assiming the key is in the appropriate `$env` directory
+      - e.g. new certs for dev using RSA4096 with current key being `C:/secrets/my-key.key`:
+         - `C:/secrets/dev_20250928123000_RSA4096_SealedSecret.cert` for public key
+         - `C:/secrets/dev_20250928123000_RSA4096_SealedSecret.key` for private key
 1. Create a new SealedSecret file with the newly generated encryption key data
    - create a new SealedSecrets file `./kubeseal/{{env}}/dev_20250928123000_RSA4096_SealedSecret.yaml`
    - contents:
