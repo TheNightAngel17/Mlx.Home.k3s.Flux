@@ -2,7 +2,7 @@
 
 MLX-Home services are defined here, along with all Kubernetes GitOps configuration managed by Flux.
 
-## Repository Structure (Post-Migration)
+## Repository Structure
 ```
 apps/
   <app>/
@@ -39,7 +39,9 @@ clusters/
 ### Namespaces
 All namespaces are now centralized per environment in `clusters/<env>/namespaces.yaml` and applied by both `init` and `full` kustomizations.
 
-## 1. Install Sealed-Secrets
+## Installation Instructions
+
+### 1. Install Sealed-Secrets
 
 To install controller:
 ```bash
@@ -51,22 +53,22 @@ kubectl apply -f <sealed-secrets-key.yaml>
 ```
 Then delete the auto-generated secret and restart the controller pod so it picks up the provided key.
 
-## 2. Prepare Flux
+### 2. Prepare Flux
 We use Flux CD for reconciliation.
 
-### Install Flux CLI
+#### Install Flux CLI
 Follow: https://fluxcd.io/flux/installation/
 
-### SSH Key (if needed)
+#### SSH Key (if needed)
 ```bash
 ssh-keygen -t ed25519 -C "29760146+TheNightAngel17@users.noreply.github.com" -f /home/lemonsml/.ssh/gh_flux_key -P ""
 ```
 Add the public key to the Git host (GitHub) for repo access.
 
-## 3. Data Recovery (Longhorn)
+### 3. Data Recovery (Longhorn)
 Longhorn provides the storage layer; use it to restore volumes before deploying full workloads.
 
-### Bootstrap Init Branch (Longhorn + Namespaces Only)
+#### Bootstrap Init Branch (Longhorn + Namespaces Only)
 The `init` branch is still used for a minimal bring-up (namespaces + Longhorn) so volumes can be restored safely before app workloads start.
 
 Dev:
@@ -86,7 +88,7 @@ flux bootstrap git \
   --private-key-file=/home/lemonsml/.ssh/gh_flux_key
 ```
 
-### Access Longhorn UI
+#### Access Longhorn UI
 ```bash
 kubectl port-forward service/longhorn-frontend 8675:80 -n longhorn-system
 ```
@@ -96,7 +98,7 @@ Open http://localhost:8675/#/dashboard and perform volume restoration:
 3. Activate Disaster Recovery Volumes (block device)
 4. Create PV/PVC (Use Previous PVC = checked)
 
-## 4. Bootstrap Full Repository
+### 4. Bootstrap Full Repository
 After volumes restored, bootstrap (or switch to) the `main` branch which reconciles all applications via `clusters/<env>/full`.
 
 Dev:
@@ -121,18 +123,24 @@ Check readiness:
 kubectl get pods --all-namespaces -o wide
 ```
 
-## 5. Adding / Updating an Application
+## Adding / Updating an applicaiton
+
 1. Copy PROD (base) manifest(s) into `apps/<app>/base` (must reflect canonical prod state).
 2. Create/adjust dev patches only where drift is required.
 3. Ensure dev `kustomization.yaml` uses `patchesStrategicMerge` and lists only necessary patches.
 4. Add overlay path to `clusters/<env>/full/kustomization.yaml` (both dev & prod for new apps—prod just references base).
 5. For any IngressRoute, always add matching dev patch.
 
-## 6. Sealed Secrets Workflow
-- Generate plaintext Secret locally
-- Seal with the cluster-specific public key (`kubeseal --controller-namespace sealed-secrets ...`)
-- Replace only the `spec.encryptedData` map in the corresponding dev patch file
+### Adding Sealed Secrets
+- Generate plaintext Secret locally, ideally in `kubeseal/` somewhere so .gitignore ensures GIT doens't pick it up
+- Seal with the cluster-specific public key for your environment(s)
+```powershell
+Get-Content .\app-name_Secret.yaml | kubeseal --format=yaml --cert C:\Path\To\env_cert.crt > app-name_SealedSecret.yaml
+```
+- If this is a PRD environment secret, add it to `apps/<app>/base`
+- If this is an overlay secret, replace only the `spec.encryptedData` map in the corresponding patch file
 - Never add unrelated keys to the patch
+
 
 ## 7. Conventions Summary
 - File name tokens separated by `_`, internal hyphens preserved.
