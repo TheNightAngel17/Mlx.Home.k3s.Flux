@@ -85,8 +85,11 @@ ensure_directory() {
 clean_staging_dirs() {
   local dirs=("$@")
   for dir in "${dirs[@]}"; do
-    rm -rf "$dir"
     mkdir -p "$dir"
+    if [[ -d "$dir" ]]; then
+      find "$dir" -type f ! -name '.gitkeep' -delete
+      find "$dir" -mindepth 1 -type d -empty -delete
+    fi
   done
 }
 
@@ -205,10 +208,10 @@ fi
 CURRENT_KEY_DIR=$(dirname "$CURRENT_KEY")
 ensure_directory "$CURRENT_KEY_DIR"
 
-TIMESTAMP=$(date +%Y%m%d%H%M%S)
-NEW_KEY_BASENAME="${ENVIRONMENT}_${TIMESTAMP}_${NEW_ALGO}_SealedSecret"
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+NEW_KEY_BASENAME="${ENVIRONMENT}_${TIMESTAMP}_${NEW_ALGO}_Secret"
 NEW_KEY_PATH="$CURRENT_KEY_DIR/${NEW_KEY_BASENAME}.key"
-NEW_CERT_PATH="$CURRENT_KEY_DIR/${NEW_KEY_BASENAME}.cert"
+NEW_CERT_PATH="$CURRENT_KEY_DIR/${NEW_KEY_BASENAME}.crt"
 NEW_TLS_SECRET_PATH="$CURRENT_KEY_DIR/${NEW_KEY_BASENAME}.yaml"
 
 RSA_BITS=""
@@ -233,7 +236,7 @@ NEW_CERT_PATH=$(auto_realpath "$NEW_CERT_PATH")
 
 CERT_B64=$(base64 -w0 "$NEW_CERT_PATH")
 KEY_B64=$(base64 -w0 "$NEW_KEY_PATH")
-TLS_SECRET_NAME="sealed-secrets-key$(head -c 3 /dev/urandom | od -An -tx1 | tr -d ' \n')"
+TLS_SECRET_NAME="$NEW_KEY_BASENAME"
 
 cat >"$NEW_TLS_SECRET_PATH" <<EOF
 apiVersion: v1

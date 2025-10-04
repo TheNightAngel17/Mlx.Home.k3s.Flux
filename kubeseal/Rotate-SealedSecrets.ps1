@@ -76,10 +76,14 @@ function Set-DirectoryPresent {
 function Set-CleanDirectories {
   param([string[]]$Directories)
   foreach ($dir in $Directories) {
-    if (Test-Path -LiteralPath $dir) {
-      Remove-Item -LiteralPath $dir -Recurse -Force
-    }
     Set-DirectoryPresent -Path $dir
+    if (Test-Path -LiteralPath $dir) {
+      Get-ChildItem -LiteralPath $dir -Force | ForEach-Object {
+        if (-not ($_.PSIsContainer -eq $false -and $_.Name -eq '.gitkeep')) {
+          Remove-Item -LiteralPath $_.FullName -Recurse -Force
+        }
+      }
+    }
   }
 }
 
@@ -301,10 +305,10 @@ $currentKeyPath = $resolvedPath.Path
 $currentKeyDirectory = Split-Path -Parent $currentKeyPath
 Set-DirectoryPresent -Path $currentKeyDirectory
 
-$timestamp = Get-Date -Format 'yyyyMMddHHmmss'
-$newKeyBaseName = "{0}_{1}_{2}_SealedSecret" -f $Env, $timestamp, $NewAlgorithm
+$timestamp = Get-Date -Format 'yyyyMMdd_HHmmss'
+$newKeyBaseName = "{0}_{1}_{2}_Secret" -f $Env, $timestamp, $NewAlgorithm
 $newKeyPath = Join-Path $currentKeyDirectory ("{0}.key" -f $newKeyBaseName)
-$newCertPath = Join-Path $currentKeyDirectory ("{0}.cert" -f $newKeyBaseName)
+$newCertPath = Join-Path $currentKeyDirectory ("{0}.crt" -f $newKeyBaseName)
 $newTlsSecretPath = Join-Path $currentKeyDirectory ("{0}.yaml" -f $newKeyBaseName)
 
 $rsaBits = $null
@@ -338,7 +342,7 @@ $certBytes = [System.IO.File]::ReadAllBytes($newCertPath)
 $keyBytes = [System.IO.File]::ReadAllBytes($newKeyPath)
 $certBase64 = [System.Convert]::ToBase64String($certBytes)
 $keyBase64 = [System.Convert]::ToBase64String($keyBytes)
-$tlsSecretName = "sealed-secrets-key{0}" -f ([System.Guid]::NewGuid().ToString('N').Substring(0,6))
+$tlsSecretName = $newKeyBaseName
 $tlsSecretContent = @(
   'apiVersion: v1',
   'kind: Secret',

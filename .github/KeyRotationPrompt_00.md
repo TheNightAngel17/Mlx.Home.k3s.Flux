@@ -55,16 +55,16 @@ the script will:
       - `./kubeseal/{{$env}}/02_resealed/`
    - If we are flagged for cleaning only, that's all we need to do, can exit the script
 1. Create a local variable for file name names (cert + yaml)
-   - `{{$env}}_{{yyyyMMddhhmmss}}_{{$new-algorithm}}_SealedSecret`
-1. generate the `.cert` and the `.key` files 
+   - `{{$env}}_{{yyyyMMdd}}_{{hhmmss}}_{{$new-algorithm}}_Secret`
+1. generate the `.crt` and the `.key` files 
    - using the correct `$new-algorithm` type
    - files are dropped in the folder that the `-CurrentCertPrivateKey` is grabgbed from 
       - if no direct path given, default to assiming the key is in the appropriate `$env` directory
       - e.g. new certs for dev using RSA4096 with current key being `C:/secrets/my-key.key`:
-         - `C:/secrets/dev_20250928123000_RSA4096_SealedSecret.cert` for public key
-         - `C:/secrets/dev_20250928123000_RSA4096_SealedSecret.key` for private key
+         - `C:/secrets/dev_20250928_193000_RSA4096_Secret.crt` for public key
+         - `C:/secrets/dev_20250928_193000_RSA4096_Secret.key` for private key
 1. Create a new SealedSecret file with the newly generated encryption key data
-   - create a new SealedSecrets file `./kubeseal/{{env}}/dev_20250928123000_RSA4096_SealedSecret.yaml`
+   - create a new SealedSecrets file `{{original-key-path}}/dev_20250928_193000_RSA4096_Secret.yaml`
    - contents:
       ```yaml
       apiVersion: v1  
