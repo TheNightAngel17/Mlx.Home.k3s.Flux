@@ -1,2 +1,5 @@
-*-secret.yaml
-*-secret.yml
+*_secret.yaml
+*_secret.yml
+*.cert
+*.key
+*.pem

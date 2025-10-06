@@ -4,6 +4,6 @@ metadata:
   name: cloudfrlared-kustomization
   namespace: flux-system
 resources:
-- cloudflared-sealedsecret.yaml
-- cloudflared-configmap.yaml
-- cloudflared-deployment.yaml
+- cloudflared_SealedSecret.yaml
+- cloudflared_ConfigMap.yaml
+- cloudflared_Deployment.yaml

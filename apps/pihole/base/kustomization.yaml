@@ -5,8 +5,8 @@ metadata:
   name: pihole-kustomization
   namespace: flux-system
 resources:
-- pihole-sealedsecret.yaml
-- pihole-pvcs.yaml
-- pihole-helmsource.yaml
-- pihole-helmrelease.yaml
-- pihole-ingress.yaml
+- pihole_SealedSecret.yaml
+- pihole_PVC.yaml
+- pihole_HelmRepository.yaml
+- pihole_HelmRelease.yaml
+- pihole_IngressRoute.yaml

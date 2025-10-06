@@ -1,0 +1,61 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Rename • Dry Run",
+      "type": "PowerShell",
+      "request": "launch",
+      "script": "${workspaceFolder}/rename.ps1",
+      "cwd": "${workspaceFolder}",
+      "args": ["-Verbose", "-DryRun"],
+      "createTemporaryIntegratedConsole": true
+    },
+    {
+      "name": "Rename • Apply Renames",
+      "type": "PowerShell",
+      "request": "launch",
+      "script": "${workspaceFolder}/rename.ps1",
+      "cwd": "${workspaceFolder}",
+      "args": ["-Verbose"],
+      "createTemporaryIntegratedConsole": true
+    },
+    {
+      "name": "Rotate-SealedSecrets • Clean (dev)",
+      "type": "PowerShell",
+      "request": "launch",
+      "script": "${workspaceFolder}/kubeseal/Rotate-SealedSecrets.ps1",
+      "cwd": "${workspaceFolder}/kubeseal",
+      "args": [
+        "-Env", "dev",
+        "-Clean"
+      ],
+      "createTemporaryIntegratedConsole": true
+    },
+    {
+      "name": "Rotate-SealedSecrets • Clean (prd)",
+      "type": "PowerShell",
+      "request": "launch",
+      "script": "${workspaceFolder}/kubeseal/Rotate-SealedSecrets.ps1",
+      "cwd": "${workspaceFolder}/kubeseal",
+      "args": [
+        "-Env", "prd",
+        "-Clean"
+      ],
+      "createTemporaryIntegratedConsole": true
+    },
+    {
+      "name": "Rotate-SealedSecrets • Run",
+      "type": "PowerShell",
+      "request": "launch",
+      "script": "${workspaceFolder}/kubeseal/Rotate-SealedSecrets.ps1",
+      "cwd": "${workspaceFolder}/kubeseal",
+      "args": [
+        "-Env", "dev",
+        "-CurrentCertPrivateKey", "my-secret.key",
+        "-NewAlgorithm", "RSA4096",
+        "-Verbose"
+      ],
+      "createTemporaryIntegratedConsole": true
+    },
+  ]
+}

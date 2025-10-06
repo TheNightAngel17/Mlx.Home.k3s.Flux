@@ -4,6 +4,6 @@ metadata:
   name: mlx-portfolio-kustomization
   namespace: flux-system
 resources:
-  - mlx-portfolio-helmsource.yaml
-  - mlx-portfolio-helmrelease.yaml
-  - mlx-portfolio-ingress.yaml
+  - mlx-portfolio_HelmRepository.yaml
+  - mlx-portfolio_HelmRelease.yaml
+  - mlx-portfolio_IngressRoute.yaml

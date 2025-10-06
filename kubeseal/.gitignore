@@ -1,0 +1,12 @@
+# Ignore everything by default in this directory
+*
+
+# Re-allow directory traversal so explicit file allow-list entries work
+!*/
+
+# Keep any .gitkeep files tracked - mainly for folder structure
+!**/.gitkeep
+
+# Keep the PowerShell and Bash rotation scripts tracked
+!Rotate-SealedSecrets.ps1
+!Rotate-SealedSecrets.sh

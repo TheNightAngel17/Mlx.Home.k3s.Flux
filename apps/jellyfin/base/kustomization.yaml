@@ -4,7 +4,7 @@ metadata:
   name: jellyfin-kustomization
   namespace: flux-system
 resources:
-- jellyfin-pvcs.yaml
-- jellyfin-helmsource.yaml
-- jellyfin-helmrelease.yaml
-- jellyfin-ingress.yaml
+- jellyfin_PVC_PV.yaml
+- jellyfin_HelmRepository.yaml
+- jellyfin_HelmRelease.yaml
+- jellyfin_IngressRoute.yaml
