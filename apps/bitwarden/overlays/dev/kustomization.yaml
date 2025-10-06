@@ -5,4 +5,4 @@ resources:
 patchesStrategicMerge:
   - bitwarden_HelmRelease.yaml
   - bitwarden_IngressRoute.yaml
-  - bitwarden_SealedSecret.yaml
+  # - bitwarden_SealedSecret.yaml
