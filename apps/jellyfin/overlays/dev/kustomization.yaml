@@ -5,3 +5,4 @@ resources:
 patchesStrategicMerge:
   - jellyfin_IngressRoute.yaml
   - jellyfin_HelmRelease.yaml
+  - jellyfin_PV.yaml
