@@ -339,6 +339,7 @@ $newKeyPath = Join-Path $currentKeyDirectory ("{0}.key" -f $newKeyBaseName)
 $newCertPath = Join-Path $currentKeyDirectory ("{0}.crt" -f $newKeyBaseName)
 $newTlsSecretPath = Join-Path $currentKeyDirectory ("{0}.yaml" -f $newKeyBaseName)
 
+
 $rsaBits = $null
 switch ($Algorithm) {
   'RSA2048' { $rsaBits = 2048; break }
@@ -370,14 +371,17 @@ $certBytes = [System.IO.File]::ReadAllBytes($newCertPath)
 $keyBytes = [System.IO.File]::ReadAllBytes($newKeyPath)
 $certBase64 = [System.Convert]::ToBase64String($certBytes)
 $keyBase64 = [System.Convert]::ToBase64String($keyBytes)
-$tlsSecretName = $newKeyBaseName
-$tlsSecretMetadataName = ($tlsSecretName -replace '_','-').ToLowerInvariant()
+$timestamp2 = Get-Date -Format 'yyyyMMdd-HHmmss'
+$tlsSecretName = ("sealed-secrets-key-{0}-{1}" -f $timestamp2, $Algorithm).ToLowerInvariant()
 $tlsSecretContent = @(
   'apiVersion: v1',
   'kind: Secret',
   'type: kubernetes.io/tls',
   'metadata:',
-  "  name: $tlsSecretMetadataName",
+  "  name: $tlsSecretName",
+  '  generateName: sealed-secrets-key',
+  '  labels:',
+  '    sealedsecrets.bitnami.com/sealed-secrets-key: active',
   '  namespace: kube-system',
   'data:',
   "  tls.crt: $certBase64",
