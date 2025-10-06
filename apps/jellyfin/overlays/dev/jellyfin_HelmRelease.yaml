@@ -6,6 +6,5 @@ metadata:
 spec:
   values:
     runtimeClassName: ''
-    service:
-      type: ClusterIP
-      loadBalancerIP: ''
+    resources:
+      limits: {}
