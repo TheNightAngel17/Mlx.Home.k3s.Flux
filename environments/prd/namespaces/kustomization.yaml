@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - bitwarden_Namespace.yaml
+  - cert-manager_Namespace.yaml
+  - cloudflared-tunnel_Namespace.yaml
+  - ddb-proxy_Namespace.yaml
+  - foundry-vtt-kf_Namespace.yaml
+  - foundry-vtt-mll_Namespace.yaml
+  - foundry-vtt-tjk_Namespace.yaml
+  - foundry-vtt-tw_Namespace.yaml
+  - home-assistant_Namespace.yaml
+  - jellyfin_Namespace.yaml
+  - longhorn-system_Namespace.yaml
+  - mlx-portfolio_Namespace.yaml
+  - pihole_Namespace.yaml
+  - traefik_Namespace.yaml

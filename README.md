@@ -76,9 +76,19 @@ Dev:
 flux bootstrap git \
   --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux \
   --branch=main \
-  --path=clusters/dev/init \
+  --path=clusters/dev \
   --private-key-file=/home/lemonsml/.ssh/gh_flux_key
 ```
+
+```powershell
+flux bootstrap git `
+  --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux `
+  --branch=main `
+  --path=clusters/dev `
+  --private-key-file=/home/lemonsml/.ssh/gh_flux_key
+```
+
+
 Prod:
 ```bash
 flux bootstrap git \

@@ -1,0 +1,27 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../namespaces
+
+  # init
+  - ../../../apps/sealed-secrets/overlays/dev
+
+  # recovery
+  - ../../../apps/longhorn/overlays/dev
+  - ../../../apps/nvidia/overlays/dev
+  - ../../../apps/traefik/overlays/dev
+
+  # live
+  - ../../../apps/bitwarden/overlays/dev
+  - ../../../apps/cert-manager/overlays/dev
+  - ../../../apps/cloudflared/overlays/dev
+  - ../../../apps/ddb-proxy/overlays/dev
+  - ../../../apps/foundry-vtt-kf/overlays/dev
+  - ../../../apps/foundry-vtt-mll/overlays/dev
+  - ../../../apps/foundry-vtt-tjk/overlays/dev
+  - ../../../apps/foundry-vtt-tw/overlays/dev
+  - ../../../apps/homne-assistant/overlays/dev
+  - ../../../apps/jellyfin/overlays/dev
+  - ../../../apps/mlx-portfolio/overlays/dev
+  - ../../../apps/pihole/overlays/dev
