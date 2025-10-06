@@ -1,0 +1,12 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pihole
+  namespace: flux-system
+spec:
+  values:
+ 
+    # -- Configuration for the DNS service on port 53
+    serviceDns:
+      # -- A fixed `spec.loadBalancerIP` for the DNS Service
+      loadBalancerIP: "10.17.17.101"

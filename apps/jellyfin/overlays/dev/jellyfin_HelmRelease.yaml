@@ -16,4 +16,4 @@ spec:
       # -- Service type (ClusterIP, NodePort, or LoadBalancer).
       type: LoadBalancer
       # -- Specific IP address for the LoadBalancer.
-      loadBalancerIP: "10.17.17.101"
+      loadBalancerIP: "10.17.17.102"
