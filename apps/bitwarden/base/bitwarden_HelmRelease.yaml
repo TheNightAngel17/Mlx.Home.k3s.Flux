@@ -79,12 +79,12 @@ spec:
         backups:
           # Use an existing PVC by specifying the name.
           existingClaim: bitwarden-self-host-mssqlbackups
-        labels: {}
+          labels: {}
         data:
           # Use an existing PVC by specifying the name.
           existingClaim: bitwarden-self-host-mssqldata
-        labels: {}
+          labels: {}
         log:
           # Use an existing PVC by specifying the name.
           existingClaim: bitwarden-self-host-mssqllog
-        labels: {}
+          labels: {}
