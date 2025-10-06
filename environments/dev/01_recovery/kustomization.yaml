@@ -9,5 +9,5 @@ resources:
 
   # recovery
   - ../../../apps/longhorn/overlays/dev
-  # - ../../../apps/nvidia/overlays/dev
+  - ../../../apps/nvidia/overlays/dev
   # - ../../../apps/traefik/overlays/dev
