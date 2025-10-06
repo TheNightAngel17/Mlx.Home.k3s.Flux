@@ -7,7 +7,10 @@ spec:
   values:
     runtimeClassName: ''
     resources:
-      limits: {}
+      requests:
+        nvidia.com/gpu: null
+      limits:
+        nvidia.com/gpu: null    
     
     service:
       # -- Service type (ClusterIP, NodePort, or LoadBalancer).
