@@ -4,6 +4,6 @@ metadata:
   name: ddb-proxy-kustomization
   namespace: flux-system
 resources:
-  - ddb-proxy_helm-repository.yaml
-  - ddb-proxy_helmrelease.yaml
-  - ddb-proxy_ingress.yaml
+  - ddb-proxy_HelmRepository.yaml
+  - ddb-proxy_HelmRelease.yaml
+  - ddb-proxy_IngressRoute.yaml
