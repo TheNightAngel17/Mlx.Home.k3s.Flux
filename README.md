@@ -4,23 +4,50 @@ MLX-Home services are defined here, along with all Kubernetes GitOps configurati
 
 ## Repository Structure
 ```
-apps/
-  <app>/
-    base/                 # Canonical PROD state (exact copy of former mlx-home-prd definitions)
-    overlays/
-      dev/                # Dev-specific patches (only where drift exists)
-      prd/                # Points back to base only (no patches unless intentional future prod drift)
-clusters/
-  dev/
-    namespaces.yaml       # All namespaces (includes dev-only apps like home-assistant)
-    init/kustomization.yaml
-    full/kustomization.yaml
-    flux-system/          # Created/managed by flux bootstrap
-  prd/
-    namespaces.yaml       # All prod namespaces
-    init/kustomization.yaml
-    full/kustomization.yaml
-    flux-system/
+├── apps/
+|   ├── app1/
+|   |   ├── base/
+|   |   |   ├── kustomization.yaml
+|   |   |   ├── app1_ResourceDefinition1.yaml
+|   |   |   ├── app1_ResourceDefinition2.yaml
+|   |   |   └── app1_ResourceDefinition3.yaml
+|   |   └── overlays/
+|   |       ├── env1/
+|   |       |   ├── kustomization.yaml                    # references ../../base/ + patch files
+|   |       |   ├── app1_ResourceDefinition1_env1.yaml    # Resource 1 patches for env1
+|   |       |   └── app1_ResourceDefinition2_env1.yaml    # Resource 2 patches for env1
+|   |       ├── env2/
+|   |       |   ├── kustomization.yaml                    # references ../../base/ + patch files
+|   |       |   ├── app1_ResourceDefinition2_env2.yaml    # Resource 2 patches for env2
+|   |       |   └── app1_ResourceDefinition3_env2.yaml    # Resource 3 patches for env2
+|   |       └── env3/
+|   |           └── kustomization.yaml
+|   ├── app2/
+|   ├── app3/
+|   |
+├── clusters/
+|   ├── cluster1/
+|   |   ├── flux-system/         # auto-generated from flux-bootstrap
+|   |   └── kustomization.yaml   # main kustomization pointing to environment stage(s)
+|   ├── cluster2/
+|   ├── cluster3/
+|   |
+├── environments/
+|   ├── env1/
+|   |   ├── 00_initalize/kustomization.yaml   # initalize stage apps / resources
+|   |   ├── 01_recovery/kustomization.yaml    # recovery stage apps / resources
+|   |   ├── 02_live/kustomization.yaml        # live stage apps / resources
+|   |   └── namespaces/
+|   |       ├── kustomization.yaml
+|   |       ├── namespace1_Namespace.yaml
+|   |       ├── namespace2_Namespace.yaml
+|   |       ├── namespace3_Namespace.yaml
+|   |       |
+|   ├── env2/
+|   ├── env3/
+|   |
+└── kubeseal/        # Clean folder that via .gitignore ignores EVERYTHING except what's already there
+                     # Useful for staging secrets while doing sealed secret shenanagains.
 ```
 
 ### Patching Rules
@@ -41,89 +68,131 @@ All namespaces are now centralized per environment in `clusters/<env>/namespaces
 
 ## Installation Instructions
 
-### 1. Install Sealed-Secrets
+Below are instructions for the stages used to bootstrap this Flux CD repository. 
+These instructions assume that the cluster is all "NET NEW", with nothing already pre-installed.
+If you are attempting to do this on a cluster that is already bootstrapped, your milage may vary
 
-To install controller:
-```bash
-kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.x.x/controller.yaml
-```
-Apply the sealed-secrets root TLS key (private location, not in repo):
-```bash
-kubectl apply -f <sealed-secrets-key.yaml>
-```
-Then delete the auto-generated secret and restart the controller pod so it picks up the provided key.
+### 1. Bootstrap Flux
 
-### 2. Prepare Flux
-We use Flux CD for reconciliation.
+1. Install Flux CLI: https://fluxcd.io/flux/installation/
+1. Prepare SSH Key for Flux
+   1. Generate the key
+      ```bash
+      ssh-keygen -t ed25519 -C "29760146+TheNightAngel17@users.noreply.github.com" -f /home/lemonsml/.ssh/gh_flux_key -P ""
+      ```
+   1. Upload the public key to the Git host (GitHub) for repo access.
+1. Ensure that for the cluster, the enviornments that you want have only the `00_initalize` folder in the cluster's kustomization, and is committed to the `main` branch
+   ```yaml
+   #### '$/clusters/{{cluster}}/kustomization.yaml'
+   ---
+   apiVersion: kustomize.config.k8s.io/v1beta1
+   kind: Kustomization
+   resources:
+   - ../../environments/{{env}}/00_initalize
+   # - ../../environments/{{env}}/01_recovery
+   # - ../../environments/{{env}}/02_live
+   ```
+1. Bootstrap the Flux repository
+   ```bash
+   flux bootstrap git \
+       --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux \
+       --branch=main \
+       --path=clusters/{{cluster}} \
+       --private-key-file=/path/to/ssh//gh_flux_key
+   ```
 
-#### Install Flux CLI
-Follow: https://fluxcd.io/flux/installation/
+### 2. Configure Sealed-Secrets
 
-#### SSH Key (if needed)
-```bash
-ssh-keygen -t ed25519 -C "29760146+TheNightAngel17@users.noreply.github.com" -f /home/lemonsml/.ssh/gh_flux_key -P ""
-```
-Add the public key to the Git host (GitHub) for repo access.
+1. Locate the ENV certificate values that are needed for the environemnts going into the cluster
+1. Apply the `.yaml` file associated to the credentials to the cluster
+   ```bash
+   kubectl apply -f `H:\path\to\some\manifest.yaml`
+   ```
+1. Restart the sealed-secrets services
+   ```bash
+   kubectl rollout restart deployment.apps/sealed-secrets -n kube-system
+   ```
+1. Ensure that the key from the manifest was picked up
+   - run the log command
+      ```bash
+      kubectl logs deployment.apps/sealed-secrets -n kube-system
+      ```
+   - You should see a log saying `... "registered private key" <name-of-key>`
 
-### 3. Data Recovery (Longhorn)
-Longhorn provides the storage layer; use it to restore volumes before deploying full workloads.
+### 3. Data Recovery & Platform PRep
 
-#### Bootstrap Init Branch (Longhorn + Namespaces Only)
-The `init` branch is still used for a minimal bring-up (namespaces + Longhorn) so volumes can be restored safely before app workloads start.
+1. Add the `01_recovery` folder to the cluster's main kustomization file and commit it to the `main` branch in the git host (GitHub).
+   ```yaml
+   #### '$/clusters/{{cluster}}/kustomization.yaml'
+   ---
+   apiVersion: kustomize.config.k8s.io/v1beta1
+   kind: Kustomization
+   resources:
+   - ../../environments/{{env}}/00_initalize
+   - ../../environments/{{env}}/01_recovery
+   # - ../../environments/{{env}}/02_live
+   ```
+1. Wait for the changes to come in via Flux CD & for longhorn to initialize
+   - Monitoring Flux Logs
+      ```bash
+      flux logs -f
+      ```
+   - Monitoring longhorn namespace
+      ```bash
+      kubectl get all -n longhorn-system
+      ```
+   - Wait for ALL services to show up 
+      > Note: Longhorn service list should be QUITE LONG
 
-Dev:
-```bash
-flux bootstrap git \
-  --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux \
-  --branch=main \
-  --path=clusters/dev \
-  --private-key-file=/home/lemonsml/.ssh/gh_flux_key
-```
+#### Longhorn Dashboard & Data Recovery
+
+1. forward the port locally
+   ```bash
+   kubectl port-forward service/longhorn-frontend 8675:80 -n longhorn-system
+   ```
+1. Open the dashboard - http://localhost:8675/#/dashboard
+1. Perform Data recovery
+   1. Backup tab: create Disaster Recovery Volumes
+   1. Wait for volumes to become Healthy (with warning)
+   1. Activate Disaster Recovery Volumes (block device)
+   1. Create PV/PVC (Use Previous PVC = checked)
+
+#### Traefik Dashboard
+
+1. forward the port locally
+   > NOTE: this command forwards the pod's port, not the svc, as the traefik svc is not exposing the dashboard's entry point ports. This is by design for security reasons.
+   ```bash
+   kubectl -n traefik port-forward pod/$(kubectl -n traefik get pods -l app.kubernetes.io/name=traefik -o jsonpath='{.items[0].metadata.name}') 8676:8080
+   ```
+1. attempt to enter the dashboard - http://localhost:8676/dashboard/#/
 
 
-Prod:
-```bash
-flux bootstrap git \
-  --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux \
-  --branch=main \
-  --path=clusters/prd/init \
-  --private-key-file=/home/lemonsml/.ssh/gh_flux_key
-```
+### 4. Deploy Live Apps
 
-#### Access Longhorn UI
-```bash
-kubectl port-forward service/longhorn-frontend 8675:80 -n longhorn-system
-```
-Open http://localhost:8675/#/dashboard and perform volume restoration:
-1. Backup tab: create Disaster Recovery Volumes
-2. Wait for volumes to become Healthy (with warning)
-3. Activate Disaster Recovery Volumes (block device)
-4. Create PV/PVC (Use Previous PVC = checked)
+1. Add the `02_live` folder to the cluster's main kustomization file and commit it to the `main` branch in the git host (GitHub).
+   ```yaml
+   #### '$/clusters/{{cluster}}/kustomization.yaml'
+   ---
+   apiVersion: kustomize.config.k8s.io/v1beta1
+   kind: Kustomization
+   resources:
+   - ../../environments/{{env}}/00_initalize
+   - ../../environments/{{env}}/01_recovery
+   - ../../environments/{{env}}/02_live
+   ```
+1. Validate all apps are up and running
+   - Monitor namespace
+      ```bash
+      kubectl get all -n {{namespace}}
+      ```
+   - Monitor Persistant Data
+      - Open Longhorn Dashboard (instructions above)
+      - Watch as PVCs get attached to pods
+   - Monitor Ingress Routs
+      - Open Traefik Dashboard
+      - Enter the HTTP section, and view the HTTP Routers, Services, & Middlewares
 
-### 4. Bootstrap Full Repository
-After volumes restored, bootstrap (or switch to) the `main` branch which reconciles all applications via `clusters/<env>/full`.
 
-Dev:
-```bash
-flux bootstrap git \
-  --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux \
-  --branch=main \
-  --path=clusters/dev/full \
-  --private-key-file=/home/lemonsml/.ssh/gh_flux_key
-```
-Prod:
-```bash
-flux bootstrap git \
-  --url=ssh://git@github.com/TheNightAngel17/Mlx.Home.k3s.Flux \
-  --branch=main \
-  --path=clusters/prd/full \
-  --private-key-file=/home/lemonsml/.ssh/gh_flux_key
-```
-
-Check readiness:
-```bash
-kubectl get pods --all-namespaces -o wide
-```
 
 ## Adding / Updating an applicaiton
 
@@ -131,7 +200,7 @@ kubectl get pods --all-namespaces -o wide
 2. Create/adjust dev patches only where drift is required.
 3. Ensure dev `kustomization.yaml` uses `patchesStrategicMerge` and lists only necessary patches.
 4. Add overlay path to `clusters/<env>/full/kustomization.yaml` (both dev & prod for new apps—prod just references base).
-5. For any IngressRoute, always add matching dev patch.
+5. For any IngressRoute, always add a matching dev patch.
 
 ### Adding Sealed Secrets
 - Generate plaintext Secret locally, ideally in `kubeseal/` somewhere so .gitignore ensures GIT doens't pick it up
