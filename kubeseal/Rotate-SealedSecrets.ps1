@@ -371,12 +371,13 @@ $keyBytes = [System.IO.File]::ReadAllBytes($newKeyPath)
 $certBase64 = [System.Convert]::ToBase64String($certBytes)
 $keyBase64 = [System.Convert]::ToBase64String($keyBytes)
 $tlsSecretName = $newKeyBaseName
+$tlsSecretMetadataName = ($tlsSecretName -replace '_','-').ToLowerInvariant()
 $tlsSecretContent = @(
   'apiVersion: v1',
   'kind: Secret',
   'type: kubernetes.io/tls',
   'metadata:',
-  "  name: $tlsSecretName",
+  "  name: $tlsSecretMetadataName",
   '  namespace: kube-system',
   'data:',
   "  tls.crt: $certBase64",
