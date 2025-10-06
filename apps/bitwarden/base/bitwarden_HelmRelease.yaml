@@ -53,12 +53,15 @@ spec:
       dataprotection:
         # Use an existing PVC by specifying the name.
         existingClaim: bitwarden-self-host-dataprotection
+        labels: {}
       attachments:
         # Use an existing PVC by specifying the name.
         existingClaim: bitwarden-self-host-attachments
+        labels: {}
       licenses:
         # Use an existing PVC by specifying the name.
         existingClaim: bitwarden-self-host-licenses
+        labels: {}
       logs:
         # Logs are disabled by default
         enabled: false
@@ -76,9 +79,12 @@ spec:
         backups:
           # Use an existing PVC by specifying the name.
           existingClaim: bitwarden-self-host-mssqlbackups
+        labels: {}
         data:
           # Use an existing PVC by specifying the name.
           existingClaim: bitwarden-self-host-mssqldata
+        labels: {}
         log:
           # Use an existing PVC by specifying the name.
           existingClaim: bitwarden-self-host-mssqllog
+        labels: {}
