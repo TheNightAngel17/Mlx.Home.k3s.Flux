@@ -63,8 +63,6 @@ MLX-Home services are defined here, along with all Kubernetes GitOps configurati
 - Naming: `<app>_<resource-kind>_dev.yaml` (underscores between tokens; internal hyphens preserved).
 - Never create prod patches during normal sync operations.
 
-### Namespaces
-All namespaces are now centralized per environment in `clusters/<env>/namespaces.yaml` and applied by both `init` and `full` kustomizations.
 
 ## Installation Instructions
 
