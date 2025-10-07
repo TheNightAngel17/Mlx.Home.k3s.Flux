@@ -294,7 +294,6 @@ Get-Content .\app-name_Secret.yaml | kubeseal --format=yaml --cert C:\Path\To\en
 Curent script utilities are in the process of being merged into a local-only powerhell utility. Feel free to use them, but don't get too reliant on them!
 
 - `rename.ps1` - renames files in apps to follow naming conventions
-   - known issue: in environment overlays, it doens't currently add the env tag to the file name.
 - `kubeseal/Rotate-SealedSecrets.*`
    - performs full key rotation via `kubeseal`
    - able to use outside keys

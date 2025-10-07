@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - ../../base
 patchesStrategicMerge:
-  - pihole_IngressRoute.yaml
-  - pihole_SealedSecret.yaml
-  - pihole_HelmRelease.yaml
+  - pihole_IngressRoute_dev.yaml
+  - pihole_SealedSecret_dev.yaml
+  - pihole_HelmRelease_dev.yaml

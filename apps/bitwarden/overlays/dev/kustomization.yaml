@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - ../../base
 patchesStrategicMerge:
-  - bitwarden_HelmRelease.yaml
-  - bitwarden_IngressRoute.yaml
-  - bitwarden_SealedSecret.yaml
+  - bitwarden_HelmRelease_dev.yaml
+  - bitwarden_IngressRoute_dev.yaml
+  - bitwarden_SealedSecret_dev.yaml

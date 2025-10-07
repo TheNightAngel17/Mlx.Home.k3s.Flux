@@ -102,7 +102,7 @@ foreach ($fileInfo in $yamlFiles) {
 
   # env detection
   $env = $null
-  if ($relative -match '[\\/]overlays[\/](dev|prd)[\\/]') {
+  if ($relative -match '[\\/]overlays[\\/]([^\\/]+)[\\/]') {
     $env = $Matches[1]
   }
 

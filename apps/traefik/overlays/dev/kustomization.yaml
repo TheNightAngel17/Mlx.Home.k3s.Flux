@@ -4,4 +4,4 @@ resources:
   - ../../base
   # - traefik_SealedSecret.yaml
 patchesStrategicMerge:
-  - traefik_HelmRelease.yaml
+  - traefik_HelmRelease_dev.yaml

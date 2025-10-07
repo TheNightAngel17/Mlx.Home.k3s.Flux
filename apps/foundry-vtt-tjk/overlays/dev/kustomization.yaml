@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - ../../base
 patchesStrategicMerge:
-  - foundry-vtt-tjk_IngressRoute.yaml
-  - foundry-vtt-tjk_SealedSecret.yaml
+  - foundry-vtt-tjk_IngressRoute_dev.yaml
+  - foundry-vtt-tjk_SealedSecret_dev.yaml
