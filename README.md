@@ -233,7 +233,7 @@ The ideal way to contribute is to:
    1. Patch the flux git repository to point to your branch
       ```powershell
       kubectl patch gitrepository flux-system -n flux-system --type merge `
-          -p '{"spec":{"ref":{"branch":"feature/testme"}}}'
+          -p '{"spec":{"ref":{"branch":"<branch-name>"}}}'
       ```
    1. Force reconciliation
       ```powershell
