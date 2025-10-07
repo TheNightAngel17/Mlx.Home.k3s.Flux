@@ -18,7 +18,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
       - rotates sealed-secrets
       - cleans working directory
 - Initial Changelog / tracking
+- `.vscode/launch.json` items for eazy script running
+- `.github/` items
+   - PR Template
+   - common prompt for copilot - `add-applicaiton.md`
 
 ### Changed
 
 - Refactor to `apps/cluster/environments` w/ overlays from strictly `clusters`
+
+### Removed
+
+- Old `clusters/mlx-home-dev` reference
+   > NOTE: keeping `clusters/mlx-home-prd` for 1 month following changes in the case we need to revert
