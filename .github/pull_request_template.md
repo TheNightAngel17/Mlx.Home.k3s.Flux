@@ -26,6 +26,7 @@
 - Post-merge actions (secret rotation, cleanup jobs, migrations): <!-- details -->
 
 ## Documentation
+- [ ] CHANGELOG updated
 - [ ] README updated (if required).
 - [ ] Runbooks / dashboards updated (if required).
 - Notes: <!-- explain omissions -->
