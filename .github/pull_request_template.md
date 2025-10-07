@@ -16,13 +16,12 @@
 ### Security
 
 ## Testing
-- [ ] Automated tests (list suites or `N/A`)
 - [ ] Manual validation notes:
   - `kubectl get kustomizations -A`
   - `flux get kustomizations -n flux-system`
   - Additional checks: <!-- dashboards, smoke tests -->
 
-## Summary
+## TODO during PR
 - [ ] Feature branch deployed to DEV and verified.
 - [ ] Required manifests copied into `apps/*/base` and overlays adjusted.
 - [ ] Secrets re-sealed with PROD keys when applicable.
@@ -40,7 +39,6 @@
 ## Documentation
 - [ ] CHANGELOG updated
 - [ ] README updated (if required).
-- [ ] Runbooks / dashboards updated (if required).
 - Notes: <!-- explain omissions -->
 
 ## Rollback Plan
