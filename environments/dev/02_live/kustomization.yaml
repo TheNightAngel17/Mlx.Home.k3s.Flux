@@ -8,7 +8,7 @@ resources:
   - ../../../apps/cloudflared/overlays/dev
   - ../../../apps/ddb-proxy/overlays/dev
   - ../../../apps/foundry-vtt-kf/overlays/dev
-  - ../../../apps/foundry-vtt-mll/overlays/dev
+  # - ../../../apps/foundry-vtt-mll/overlays/dev
   - ../../../apps/foundry-vtt-tjk/overlays/dev
   - ../../../apps/foundry-vtt-tw/overlays/dev
   - ../../../apps/home-assistant/overlays/dev

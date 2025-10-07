@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - ../../base
 patchesStrategicMerge:
-  - longhorn_HelmRelease_dev.yaml
+  # - longhorn_HelmRelease_dev.yaml
   - longhorn_SealedSecret_dev.yaml
