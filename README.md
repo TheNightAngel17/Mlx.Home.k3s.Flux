@@ -50,6 +50,15 @@ MLX-Home services are defined here, along with all Kubernetes GitOps configurati
                      # Useful for staging secrets while doing sealed secret shenanagains.
 ```
 
+
+
+## Environments
+
+| Environment | Flux `GitRepository` ref | Usage notes |
+| --- | --- | --- |
+| dev | `spec.ref.branch = main` by default, temporarily patched to `feature/<name>` while iterating | Use DEV for active development only: point Flux at your feature branch while testing, keep overlays limited to environment drift, and switch it back to `main` immediately once the PR lands. |
+| prd | `spec.ref.branch = main` (never points at feature branches) | PROD always tracks `main`. Post-merge, either wait for Flux to sync or run `flux reconcile` commands. For rollback, revert the `main` branch and push; Flux will redeploy the reverted state. |
+
 ### Patching Rules
 - Base = PROD truth. Never edit base directly for environment drift.
 - Dev overlays use `patchesStrategicMerge` only for actual differences.
@@ -62,15 +71,6 @@ MLX-Home services are defined here, along with all Kubernetes GitOps configurati
 - HelmRelease: dev patch only when values differ (image tag, sourceRef, domains, backupTarget, resources, etc.). Remove unchanged keys from patches.
 - Naming: `<app>_<resource-kind>_dev.yaml` (underscores between tokens; internal hyphens preserved).
 - Never create prod patches during normal sync operations.
-
-
-## Branch Workflow
-
-| Environment | Flux `GitRepository` ref | Usage notes |
-| --- | --- | --- |
-| DEV (`mlx-home-dev`) | `spec.ref.branch = main` by default, temporarily patched to `feature/<name>` while iterating | Use DEV for active development only: point Flux at your feature branch while testing, keep overlays limited to environment drift, and switch it back to `main` immediately once the PR lands. |
-| PROD (`mlx-home-prd`) | `spec.ref.branch = main` (never points at feature branches) | PROD always tracks `main`. Post-merge, either wait for Flux to sync or run `flux reconcile` commands. For rollback, revert the `main` branch and push; Flux will redeploy the reverted state. |
-
 
 ## Monitoring & Troubleshooting
 
@@ -222,7 +222,20 @@ If you are attempting to do this on a cluster that is already bootstrapped, your
 
 ## Contributing
 
-The ideal way to contribute is to:
+```mermaid
+flowchart TD
+    A[Start feature branch] --> B[Point DEV Flux to feature branch]
+    B --> C[Test & iterate in DEV]
+    C --> D[Promote prod-ready manifests into apps/*/base]
+    D --> E[Open PR → reviewers validate]
+    E --> F{PR merged?}
+    F -->|Yes| G[PROD tracks main; Flux syncs]
+    G --> H[Reset DEV Flux back to main]
+    H --> I[Document rollback plan <br/>via < git revert >]
+    F -->|No| C
+```
+
+### Detailed Steps
 
 1. Create a branch. e.g. `feature/short-description`, `bug/short-description`, `PoC/short-description`
 1. Point the DEV cluster to the branch
