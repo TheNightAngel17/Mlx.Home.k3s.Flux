@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - ../../base
 patchesStrategicMerge:
-  - jellyfin_IngressRoute.yaml
-  - jellyfin_HelmRelease.yaml
-  - jellyfin_PV.yaml
+  - jellyfin_IngressRoute_dev.yaml
+  - jellyfin_HelmRelease_dev.yaml
+  - jellyfin_PV_dev.yaml

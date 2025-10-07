@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - ../../base
 patchesStrategicMerge:
-  - home-assistant_IngressRoute.yaml
+  - home-assistant_IngressRoute_dev.yaml

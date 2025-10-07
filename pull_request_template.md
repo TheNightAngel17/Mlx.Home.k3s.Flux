@@ -1,27 +1,16 @@
 ## Overview of Changes
 - Summary: <!-- concise, imperative summary -->
 - Related Issues: closes <issue-link> (optional)
-
-<!-- Keep a Changelog notes -->
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+- Notable Impact: <!-- breaking changes, prod-only impact -->
 
 ## Testing
+- [ ] Automated tests (list suites or `N/A`)
 - [ ] Manual validation notes:
   - `kubectl get kustomizations -A`
   - `flux get kustomizations -n flux-system`
   - Additional checks: <!-- dashboards, smoke tests -->
 
-## TODO during PR
+## Summary
 - [ ] Feature branch deployed to DEV and verified.
 - [ ] Required manifests copied into `apps/*/base` and overlays adjusted.
 - [ ] Secrets re-sealed with PROD keys when applicable.
@@ -37,8 +26,8 @@
 - Post-merge actions (secret rotation, cleanup jobs, migrations): <!-- details -->
 
 ## Documentation
-- [ ] CHANGELOG updated
 - [ ] README updated (if required).
+- [ ] Runbooks / dashboards updated (if required).
 - Notes: <!-- explain omissions -->
 
 ## Rollback Plan
