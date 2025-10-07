@@ -1,7 +1,19 @@
 ## Overview of Changes
 - Summary: <!-- concise, imperative summary -->
 - Related Issues: closes <issue-link> (optional)
-- Notable Impact: <!-- breaking changes, prod-only impact -->
+
+<!-- Keep a Changelog notes -->
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
 
 ## Testing
 - [ ] Automated tests (list suites or `N/A`)
