@@ -8,14 +8,14 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`dev-ha.thelemonsclan.com`) 
+      match: Host(`ha.thelemonsclan.com`) 
       services:
         - kind: Service
           name: home-assistant
           passHostHeader: true
           port: 8080
     - kind: Rule
-      match: Host(`dev-ha-code.thelemonsclan.com`) 
+      match: Host(`ha-code.thelemonsclan.com`) 
       services:
         - kind: Service
           name: home-assistant-codeserver
