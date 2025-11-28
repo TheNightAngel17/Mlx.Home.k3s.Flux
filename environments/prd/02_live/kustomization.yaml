@@ -11,7 +11,7 @@ resources:
   - ../../../apps/foundry-vtt-mll/overlays/prd
   - ../../../apps/foundry-vtt-tjk/overlays/prd
   - ../../../apps/foundry-vtt-tw/overlays/prd
-  # - ../../../apps/home-assistant/overlays/prd
+  - ../../../apps/home-assistant/overlays/prd
   - ../../../apps/jellyfin/overlays/prd
   - ../../../apps/mlx-portfolio/overlays/prd
   - ../../../apps/pihole/overlays/prd
