@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: bitwarden
         namespace: flux-system
-      version: 2026.3.2
+      version: 1.1.10
   interval: 1m0s
   timeout: 10m
   releaseName: bitwarden
