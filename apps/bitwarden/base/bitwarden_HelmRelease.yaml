@@ -59,18 +59,22 @@ spec:
     volume:
       dataprotection:
         # Use an existing PVC by specifying the name.
-        existingClaim: bitwarden-self-host-dataprotection
+        #existingClaim: bitwarden-self-host-dataprotection
+        size: "1Gi"
       attachments:
         # Use an existing PVC by specifying the name.
-        existingClaim: bitwarden-self-host-attachments
+        # existingClaim: bitwarden-self-host-attachments
+        size: "5Gi"
       licenses:
         # Use an existing PVC by specifying the name.
-        existingClaim: bitwarden-self-host-licenses
+        # existingClaim: bitwarden-self-host-licenses
+        size: "1Gi"
       logs:
         # Logs are disabled by default
         enabled: false
         # Use an existing PVC by specifying the name.
-        existingClaim: bitwarden-self-host-logs
+        # existingClaim: bitwarden-self-host-logs
+        size: "5Gi"
 
     #
     # Configure database
@@ -82,9 +86,12 @@ spec:
         backups:
           # Use an existing PVC by specifying the name.
           existingClaim: bitwarden-self-host-mssqlbackups
+          size: 5Gi
         data:
           # Use an existing PVC by specifying the name.
           existingClaim: bitwarden-self-host-mssqldata
+          size: 10Gi
         log:
           # Use an existing PVC by specifying the name.
           existingClaim: bitwarden-self-host-mssqllog
+          size: 10Gi
