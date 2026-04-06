@@ -71,7 +71,7 @@ spec:
         size: "1Gi"
       logs:
         # Logs are disabled by default
-        enabled: false
+        enabled: true
         # Use an existing PVC by specifying the name.
         # existingClaim: bitwarden-self-host-logs
         size: "5Gi"
