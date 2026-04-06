@@ -60,21 +60,21 @@ spec:
       dataprotection:
         # Use an existing PVC by specifying the name.
         #existingClaim: bitwarden-self-host-dataprotection
-        size: "1Gi"
+        size: 1Gi
       attachments:
         # Use an existing PVC by specifying the name.
         # existingClaim: bitwarden-self-host-attachments
-        size: "5Gi"
+        size: 5Gi
       licenses:
         # Use an existing PVC by specifying the name.
         # existingClaim: bitwarden-self-host-licenses
-        size: "1Gi"
+        size: 1Gi
       logs:
         # Logs are disabled by default
         enabled: true
         # Use an existing PVC by specifying the name.
         # existingClaim: bitwarden-self-host-logs
-        size: "5Gi"
+        size: 5Gi
 
     #
     # Configure database
