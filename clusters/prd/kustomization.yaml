@@ -4,6 +4,6 @@ kind: Kustomization
 resources:
   - ../../environments/prd/00_initalize
   - ../../environments/prd/01_recovery
-  - ../../environments/prd/02_monitoring
+#  - ../../environments/prd/02_monitoring
   - ../../environments/prd/03_live
   
