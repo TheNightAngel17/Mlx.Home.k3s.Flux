@@ -11,7 +11,7 @@ spec:
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
-        name: grafana-repo
+        name: grafana-repo-alloy
         namespace: flux-system
       version: 0.x
   interval: 1m0s
