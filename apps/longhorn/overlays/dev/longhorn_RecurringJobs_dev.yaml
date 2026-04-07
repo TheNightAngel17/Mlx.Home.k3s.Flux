@@ -1,0 +1,72 @@
+
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: 6hr-snapshot
+  namespace: longhorn-system
+spec:
+  name: 6hr-snapshot
+  cron: "0 2/12 * * *" # Every 12 hours starting at 02:00
+  task: "snapshot"
+  groups:
+  - default
+  retain: 6
+  concurrency: 1
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: daily-backup
+  namespace: longhorn-system
+spec:
+  name: daily-backup
+  cron: "0 4 * * *" # Every day at 04:00
+  task: "backup"
+  groups:
+  - default
+  retain: 30
+  concurrency: 1
+  parameters:
+    full-backup-interval: "7"
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: daily-snapshot-cleanup
+  namespace: longhorn-system
+spec:
+  name: daily-snapshot-cleanup
+  cron: "30 5 * * *" # Every day at 05:30
+  task: "snapshot-cleanup"
+  groups:
+  - default
+  retain: 0
+  concurrency: 1
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: weekly-snapshot-delete
+  namespace: longhorn-system
+spec:
+  name: weekly-snapshot-delete
+  cron: "0 5 * * 0" # Every Sunday at 05:00
+  task: "snapshot-delete"
+  groups:
+  - default
+  retain: 6
+  concurrency: 1
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: monthly-filesystem-trim
+  namespace: longhorn-system
+spec:
+  name: monthly-filesystem-trim
+  cron: "0 6 1 * *" # Every month on the 1st at 06:00
+  task: "filesystem-trim"
+  groups:
+  - default
+  retain: 0
+  concurrency: 1

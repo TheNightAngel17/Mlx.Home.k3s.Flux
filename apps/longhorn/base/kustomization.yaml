@@ -8,4 +8,3 @@ resources:
 - longhorn_SealedSecret.yaml
 - longhorn_HelmRepository.yaml
 - longhorn_HelmRelease.yaml
-- longhorn_RecurringJobs.yaml
