@@ -13,5 +13,6 @@ resources:
   - jellyfin_Namespace.yaml
   - longhorn-system_Namespace.yaml
   - mlx-portfolio_Namespace.yaml
+  - monitoring_Namespace.yaml
   - pihole_Namespace.yaml
   - traefik_Namespace.yaml
