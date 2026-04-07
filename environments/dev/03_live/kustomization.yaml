@@ -11,7 +11,7 @@ resources:
   - ../../../apps/foundry-vtt-mll/overlays/dev
   - ../../../apps/foundry-vtt-tjk/overlays/dev
   - ../../../apps/foundry-vtt-tw/overlays/dev
-#  - ../../../apps/home-assistant/overlays/dev
+  - ../../../apps/home-assistant/overlays/dev
   - ../../../apps/jellyfin/overlays/dev
   - ../../../apps/mlx-portfolio/overlays/dev
   - ../../../apps/pihole/overlays/dev
