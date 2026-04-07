@@ -25,7 +25,7 @@ spec:
   retain: 30
   concurrency: 1
   parameters:
-    fill-backup-interval: 7
+    fill-backup-interval: "7"
 ---
 apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
