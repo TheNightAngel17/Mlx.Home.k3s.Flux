@@ -34,9 +34,10 @@ MLX-Home services are defined here, along with all Kubernetes GitOps configurati
 |   |
 ├── environments/
 |   ├── env1/
-|   |   ├── 00_initalize/kustomization.yaml   # initalize stage apps / resources
-|   |   ├── 01_recovery/kustomization.yaml    # recovery stage apps / resources
-|   |   ├── 02_live/kustomization.yaml        # live stage apps / resources
+|   |   ├── 00_initalize/kustomization.yaml    # initalize stage apps / resources
+|   |   ├── 01_recovery/kustomization.yaml     # recovery stage apps / resources
+|   |   ├── 02_monitoring/kustomization.yaml   # observability stack (Prometheus, Loki, Tempo, Alloy)
+|   |   ├── 03_live/kustomization.yaml         # live stage apps / resources
 |   |   └── namespaces/
 |   |       ├── kustomization.yaml
 |   |       ├── namespace1_Namespace.yaml
@@ -71,6 +72,23 @@ MLX-Home services are defined here, along with all Kubernetes GitOps configurati
 - HelmRelease: dev patch only when values differ (image tag, sourceRef, domains, backupTarget, resources, etc.). Remove unchanged keys from patches.
 - Naming: `<app>_<resource-kind>_dev.yaml` (underscores between tokens; internal hyphens preserved).
 - Never create prod patches during normal sync operations.
+
+## Observability Stack (LGTM)
+
+The cluster runs a full LGTM observability stack deployed via the `02_monitoring` stage:
+
+| Component | Chart | Namespace | Notes |
+| --- | --- | --- | --- |
+| Prometheus + Grafana | `kube-prometheus-stack` v72.x | `monitoring` | Grafana pre-provisioned with node-exporter (#1860) and k8s-cluster (#7249) dashboards |
+| Loki | `loki` v6.x | `monitoring` | SingleBinary mode, filesystem backend, 10Gi Longhorn PVC |
+| Tempo | `tempo` v1.x | `monitoring` | Local trace backend, 5Gi Longhorn PVC |
+| Alloy | `alloy` v0.x | `monitoring` | Discovers all pods via `discovery.kubernetes`, ships logs to Loki |
+
+**Grafana data sources** — Loki (`http://loki.monitoring:3100`) and Tempo (`http://tempo.monitoring:3100`) are pre-configured and available immediately after deploy.
+
+**Secrets** — Grafana admin credentials are stored as a `SealedSecret` (`grafana-admin-credentials`). The PRD-sealed values live in `apps/lgtm-prometheus/base/`; the DEV-sealed values are applied via `apps/lgtm-prometheus/overlays/dev/lgtm-prometheus_SealedSecret_dev.yaml`.
+
+**Enabling in PRD** — The `02_monitoring` stage is commented out in `clusters/prd/kustomization.yaml` until verified stable in DEV. Uncomment it and commit to `main` to activate.
 
 ## Monitoring & Troubleshooting
 
@@ -116,7 +134,8 @@ If you are attempting to do this on a cluster that is already bootstrapped, your
    resources:
    - ../../environments/<env>/00_initalize
    # - ../../environments/<env>/01_recovery
-   # - ../../environments/<env>/02_live
+   # - ../../environments/<env>/02_monitoring
+   # - ../../environments/<env>/03_live
    ```
 1. Bootstrap the Flux repository
    >NOTE: this should be done on a linux machine until i can figure a way to make it work on powershell
@@ -157,7 +176,8 @@ If you are attempting to do this on a cluster that is already bootstrapped, your
    resources:
    - ../../environments/<env>/00_initalize
    - ../../environments/<env>/01_recovery
-   # - ../../environments/<env>/02_live
+   # - ../../environments/<env>/02_monitoring
+   # - ../../environments/<env>/03_live
    ```
 1. Wait for the changes to come in via Flux CD & for longhorn to initialize
    - Monitoring Flux Logs
@@ -194,9 +214,9 @@ If you are attempting to do this on a cluster that is already bootstrapped, your
 1. attempt to enter the dashboard - http://localhost:8676/dashboard/#/
 
 
-### 4. Deploy Live Apps
+### 4. Deploy Monitoring Stack
 
-1. Add the `02_live` folder to the cluster's main kustomization file and commit it to the `main` branch in the git host (GitHub).
+1. Add the `02_monitoring` folder to the cluster's main kustomization file and commit it to the `main` branch in the git host (GitHub).
    ```yaml
    #### '$/clusters/<cluster>/kustomization.yaml'
    ---
@@ -205,7 +225,37 @@ If you are attempting to do this on a cluster that is already bootstrapped, your
    resources:
    - ../../environments/<env>/00_initalize
    - ../../environments/<env>/01_recovery
-   - ../../environments/<env>/02_live
+   - ../../environments/<env>/02_monitoring
+   # - ../../environments/<env>/03_live
+   ```
+   > **Note:** Always verify the monitoring stack in DEV before uncommenting it in the PRD cluster kustomization.
+1. Wait for all monitoring pods to be ready in the `monitoring` namespace.
+   ```powershell
+   kubectl get all -n monitoring
+   ```
+1. Verify PVCs are bound (Prometheus 10Gi, Grafana 2Gi, Loki 10Gi, Tempo 5Gi):
+   ```powershell
+   kubectl get pvc -n monitoring
+   ```
+1. Smoke-test Grafana via port-forward:
+   ```powershell
+   kubectl -n monitoring port-forward svc/kube-prometheus-stack-grafana 3000:80
+   ```
+   Open http://localhost:3000 — log in with the sealed credentials, and verify the Loki and Tempo data sources show green.
+
+### 5. Deploy Live Apps
+
+1. Add the `03_live` folder to the cluster's main kustomization file and commit it to the `main` branch in the git host (GitHub).
+   ```yaml
+   #### '$/clusters/<cluster>/kustomization.yaml'
+   ---
+   apiVersion: kustomize.config.k8s.io/v1beta1
+   kind: Kustomization
+   resources:
+   - ../../environments/<env>/00_initalize
+   - ../../environments/<env>/01_recovery
+   - ../../environments/<env>/02_monitoring
+   - ../../environments/<env>/03_live
    ```
 1. Validate all apps are up and running
    - Monitor namespace
