@@ -5,3 +5,4 @@ resources:
   - lgtm-prometheus_HelmRepository.yaml
   - lgtm-prometheus_HelmRelease.yaml
   - lgtm-prometheus_SealedSecret.yaml
+  - lgtm-prometheus_IngressRoute.yaml

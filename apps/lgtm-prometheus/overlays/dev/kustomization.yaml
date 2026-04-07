@@ -4,3 +4,4 @@ resources:
   - ../../base
 patchesStrategicMerge:
   - lgtm-prometheus_SealedSecret_dev.yaml
+  - lgtm-prometheus_IngressRoute_dev.yaml
