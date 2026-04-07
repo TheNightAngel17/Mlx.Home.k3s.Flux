@@ -43,4 +43,8 @@ data:
       service: https://traefik.traefik
       originRequest:
         noTLSVerify: true
+    - hostname: dev-overwatch.thelemonsclan.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
     - service: http_status:404

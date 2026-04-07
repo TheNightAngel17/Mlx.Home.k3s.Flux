@@ -71,5 +71,9 @@ data:
       service: https://traefik.traefik
       originRequest:
         noTLSVerify: true
+    - hostname: overwatch.thelemonsclan.com
+      service: https://traefik.traefik
+      originRequest:
+        noTLSVerify: true
     # This rule matches any traffic which didn't match a previous rule, and responds with HTTP 404.
     - service: http_status:404
