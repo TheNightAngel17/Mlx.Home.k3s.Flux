@@ -5,6 +5,9 @@ metadata:
   namespace: flux-system
 spec:
   values:
+    persistence:
+      defaultClassReplicaCount: 1 # Sets the replica count specifically for the default StorageClass created by Helm
     defaultSettings:
       backupTarget: s3://longhorn-backup-dev@mlx-home/
-      defaultReplicaCount: 1
+      defaultReplicaCount: 1 # Sets the default number of replicas for new volumes to 1 instead of 3
+      backingImageMinNumberOfCopies: 1 # Ensures only one copy of the backing image is kept globally
