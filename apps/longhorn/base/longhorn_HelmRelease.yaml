@@ -21,3 +21,5 @@ spec:
     defaultSettings:
       backupTarget: s3://longhorn-backup-prd@mlx-home/
       backupTargetCredentialSecret: longhorn-minio-credentials
+      defaultDataLocality: best-effort
+      snapshotMaxCount: 50
