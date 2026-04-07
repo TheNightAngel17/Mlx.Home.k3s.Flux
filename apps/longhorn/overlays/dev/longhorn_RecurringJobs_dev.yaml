@@ -9,7 +9,7 @@ spec:
   cron: "0 2/12 * * *" # Every 12 hours starting at 02:00
   task: "snapshot"
   groups:
-  - default
+  - app-data
   retain: 6
   concurrency: 1
 ---
@@ -23,7 +23,7 @@ spec:
   cron: "0 4 * * *" # Every day at 04:00
   task: "backup"
   groups:
-  - default
+  - app-data
   retain: 30
   concurrency: 1
   parameters:
@@ -39,7 +39,7 @@ spec:
   cron: "30 5 * * *" # Every day at 05:30
   task: "snapshot-cleanup"
   groups:
-  - default
+  - app-data
   retain: 0
   concurrency: 1
 ---
@@ -53,7 +53,7 @@ spec:
   cron: "0 5 * * 0" # Every Sunday at 05:00
   task: "snapshot-delete"
   groups:
-  - default
+  - app-data
   retain: 6
   concurrency: 1
 ---
@@ -67,6 +67,6 @@ spec:
   cron: "0 6 1 * *" # Every month on the 1st at 06:00
   task: "filesystem-trim"
   groups:
-  - default
+  - app-data
   retain: 0
   concurrency: 1
