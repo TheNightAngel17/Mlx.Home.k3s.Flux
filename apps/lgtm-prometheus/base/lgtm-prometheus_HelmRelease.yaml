@@ -1,0 +1,78 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack-release
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community-repo
+        namespace: flux-system
+      version: 72.x
+  interval: 1m0s
+  releaseName: kube-prometheus-stack
+  targetNamespace: monitoring
+  install:
+    crds: CreateReplace
+    createNamespace: false
+  upgrade:
+    crds: CreateReplace
+  values:
+    prometheus:
+      prometheusSpec:
+        retention: 7d
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: longhorn
+              resources:
+                requests:
+                  storage: 10Gi
+    alertmanager:
+      enabled: false
+    grafana:
+      enabled: true
+      persistence:
+        enabled: true
+        storageClassName: longhorn
+        size: 2Gi
+      admin:
+        existingSecret: grafana-admin-credentials
+        userKey: admin-user
+        passwordKey: admin-password
+      additionalDataSources:
+        - name: Loki
+          type: loki
+          url: http://loki.monitoring:3100
+          isDefault: false
+        - name: Tempo
+          type: tempo
+          url: http://tempo.monitoring:3100
+          isDefault: false
+      dashboardProviders:
+        dashboardproviders.yaml:
+          apiVersion: 1
+          providers:
+            - name: default
+              orgId: 1
+              folder: ""
+              type: file
+              disableDeletion: false
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/default
+      dashboards:
+        default:
+          node-exporter:
+            gnetId: 1860
+            revision: 37
+            datasource: Prometheus
+          k8s-cluster:
+            gnetId: 7249
+            revision: 1
+            datasource: Prometheus
