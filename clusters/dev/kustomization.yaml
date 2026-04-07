@@ -3,7 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../environments/dev/00_initalize
-  - ../../environments/dev/01_recovery
-  - ../../environments/dev/02_monitoring
-  # - ../../environments/dev/03_live
+#  - ../../environments/dev/01_recovery
+#  - ../../environments/dev/02_monitoring
+#  - ../../environments/dev/03_live
   
