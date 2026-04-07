@@ -49,8 +49,8 @@
           automation: !include automations.yaml
           script: !include scripts.yaml
           scene: !include scenes.yaml
-      addons:
-        # Code-server addon configuration
-        codeserver:
-          # Enable or disable the code-server addon
-          enabled: true
+      # addons:
+      #   # Code-server addon configuration
+      #   codeserver:
+      #     # Enable or disable the code-server addon
+      #     enabled: true

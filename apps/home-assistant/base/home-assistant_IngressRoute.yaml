@@ -14,11 +14,11 @@ spec:
           name: home-assistant
           passHostHeader: true
           port: 8080
-    - kind: Rule
-      match: Host(`ha-code.thelemonsclan.com`) 
-      services:
-        - kind: Service
-          name: home-assistant-codeserver
-          passHostHeader: true
-          port: 12321
+    # - kind: Rule
+    #   match: Host(`ha-code.thelemonsclan.com`) 
+    #   services:
+    #     - kind: Service
+    #       name: home-assistant-codeserver
+    #       passHostHeader: true
+    #       port: 12321
           
