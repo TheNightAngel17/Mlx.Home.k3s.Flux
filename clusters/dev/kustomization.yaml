@@ -4,6 +4,6 @@ kind: Kustomization
 resources:
   - ../../environments/dev/00_initalize
   - ../../environments/dev/01_recovery
-#  - ../../environments/dev/02_monitoring
+  - ../../environments/dev/02_monitoring
 #  - ../../environments/dev/03_live
   
