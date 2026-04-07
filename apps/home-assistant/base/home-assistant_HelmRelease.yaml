@@ -20,7 +20,7 @@
     targetNamespace: home-assistant
     values:
       image:
-        tag: "2025.9"      
+        tag: "2026.4.1"      
       controller:
         type: Deployment
       env: 
