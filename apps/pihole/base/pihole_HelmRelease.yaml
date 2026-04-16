@@ -69,7 +69,7 @@ spec:
       externalTrafficPolicy: Local
     
       # -- A fixed `spec.loadBalancerIP` for the DNS Service
-      loadBalancerIP: "10.17.18.101"
+      loadBalancerIP: "10.17.18.102"
       # -- A fixed `spec.loadBalancerIP` for the IPv6 DNS Service
       loadBalancerIPv6: ""
     
